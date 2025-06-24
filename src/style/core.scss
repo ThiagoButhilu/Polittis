@@ -1,0 +1,51 @@
+// _variables.scss
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Meie+Script&family=Parisienne&display=swap');
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "tailwindcss";
+
+
+
+$black: #212121;
+$green: #23ce6b;
+$blue: #92d474;
+$background: #a2caf7;
+
+$font-color: #2f2f2f;
+$secondary-color: #6658d3;
+// _mixins.scss
+@mixin transition($property, $duration, $timing-function) {
+  transition: $property $duration $timing-function;
+}
+
+// _global.scss
+:root {
+  --black: #{$black};
+  --green: #{$secondary-color};
+  --blue: #{$blue};
+  --font-color: #{$font-color};
+  --background: #{$background};
+  scroll-padding-top: 10rem;
+}
+
+
+.font-parisienne {
+     font-family: "Parisienne", cursive;
+  font-weight: 400;
+  font-style: normal;
+    }
+
+    .whatsapp-button img {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 100;
+}
+
+.whatsapp-button img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
