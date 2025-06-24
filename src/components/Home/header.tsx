@@ -16,7 +16,7 @@ export default function Header({ title }: HeaderProps) {
             className="h-8 w-auto object-contain"
           />
           <span className="font-parisienne text-3xl text-custom-black">
-            Politti&apos;s
+            Politti's
           </span>
         </Link>
         <div className="flex items-center space-x-4">
