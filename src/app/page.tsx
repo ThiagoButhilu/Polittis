@@ -1,7 +1,5 @@
 'use client';
 import { Carousel } from '@/components/Home/carousel';
-import { Product } from '@/components/Product/Product';
-import { Category } from '@/components/Product/Category';
 import { Galery } from '@/components/Home/galery';
 import { ChefHat, Award, Users, Star, Heart } from 'lucide-react';
 
