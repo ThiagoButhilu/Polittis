@@ -9,6 +9,15 @@ const nextConfig: NextConfig = {
     position: undefined
   },
 
+  output: "export",  // Habilita exportação estática
+  reactStrictMode: true,
+  images: {
+    unoptimized: true,  // Desativa otimização de imagens para GitHub Pages
+  },
+  assetPrefix: process.env.NODE_ENV === 'production' ? '/Polittis/' : '',
+  basePath: process.env.NODE_ENV === 'production' ? '/Polittis' : '',
+
+
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
