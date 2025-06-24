@@ -1,22 +1,19 @@
 import Link from 'next/link';
 import cookie from '@/../public/cookie (1).png'
+import Image from "next/image";
 
-interface HeaderProps {
-    title?: string;
-}
-
-export default function Header({ title }: HeaderProps) {
+export default function Header() {
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center space-x-2">
-          <img
+          <Image
             src={cookie.src}
             alt="Logo"
             className="h-8 w-auto object-contain"
           />
           <span className="font-parisienne text-3xl text-custom-black">
-            Politti's
+            Politti&apos;s
           </span>
         </Link>
         <div className="flex items-center space-x-4">

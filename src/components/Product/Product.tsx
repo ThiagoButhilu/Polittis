@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export class Product {
   constructor(
     public id: number,
@@ -11,7 +13,7 @@ export class Product {
   renderCard() {
     return (
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <img 
+        <Image 
           alt="Cupcakes Variados" 
           className="w-full h-48 object-cover" 
           src={this.imagem}

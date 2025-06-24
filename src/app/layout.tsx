@@ -4,20 +4,17 @@ import Header from '@/components/Home/header';
 import { Footer } from '@/components/Home/footer';
 import "@/style/core.scss";
 import faWhatsapp  from "@/../public/whatsapp2.png";
+import Image from "next/image";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-type WhatsAppProps = {
-  api: string;
-};
-
-const WhatsApp: React.FC<WhatsAppProps> = ({ api }) => {
+const WhatsApp = () => {
   return (
     <a href="https://api.whatsapp.com/send?phone=18981268295&text=Olá! Tenho interesse em doces do The Politti's" target="_blank" className="whatsapp-button">
-      <img src={faWhatsapp.src}/>
+      <Image src={faWhatsapp.src} alt="whatsapp"/>
     </a>
   );
 };
@@ -44,7 +41,7 @@ export default function RootLayout({
       >
         <Header/>
         {children}
-        <WhatsApp api={'dsad'}></WhatsApp>
+        <WhatsApp/>
         <Footer/>
       </body>
     </html>

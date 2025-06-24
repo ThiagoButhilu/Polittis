@@ -5,10 +5,10 @@ import img3 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.00 (1).
 import img4 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.37 (1).jpeg'
 import img5 from '@/../public/ensaios/galery/WhatsApp Image 2025-06-23 at 18.48.46.jpeg'
 import img6 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.35 (1).jpeg'
+import Image from "next/image";
 
-interface GaleryProps {}
 
-export const Galery = ({}: GaleryProps) => {
+export const Galery = () => {
     const galeryImages: string[] = [
         img1.src,
         img2.src,
@@ -47,7 +47,7 @@ export const Galery = ({}: GaleryProps) => {
                         <h3 className="text-2xl font-serif text-slate-800 mb-6 text-center lg:text-left">Galeria de Fotos</h3>
                         <div className="relative w-full max-w-lg mx-auto lg:mx-0">
                             <div className="aspect-square bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden rounded-xl shadow-lg">
-                                <img
+                                <Image
                                     src={galeryImages[current]}
                                     alt={`Foto ${current + 1}`}
                                     className="w-full h-full object-cover transition-all duration-500"

@@ -5,7 +5,7 @@ export const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
                     {/* Logo e descrição */}
                     <div>
-                        <h3 className="font-parisienne text-3xl mb-2">The Politti's</h3>
+                        <h3 className="font-parisienne text-3xl mb-2">The Politti&apos;s</h3>
                         <p className="text-sm text-gray-400">
                             Adoçando seus momentos mais especiais.
                         </p>
@@ -60,7 +60,7 @@ export const Footer = () => {
                     </div>
                 </div>
                 <div className="border-t border-gray-700 pt-8 text-center text-sm text-gray-400">
-                    <p>© 2023 The Politti's Doceria. Todos os direitos reservados.</p>
+                    <p>© 2023 The Politti&apos;s Doceria. Todos os direitos reservados.</p>
                     <p>
                         Feito com{" "}
                         <span className="material-icons text-xs text-pink-400 align-middle">

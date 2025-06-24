@@ -2,6 +2,7 @@
 import { Carousel } from '@/components/Home/carousel';
 import { Galery } from '@/components/Home/galery';
 import { ChefHat, Award, Users, Star, Heart } from 'lucide-react';
+import Image from "next/image";
 
 
 import sweet from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.03 (1).jpeg'
@@ -27,7 +28,7 @@ const AboutMe = () => {
               <div className="relative">
                 <div className="w-full h-96 bg-gradient-to-br from-sky-100 to-indigo-100 rounded-2xl shadow-xl flex items-center overflow-hidden justify-center">
                   <div className="text-center">
-                    <img src={profile.src}/>
+                    <Image src={profile.src} alt='profile'/>
                   </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-sky-600/10 rounded-full blur-xl"></div>
@@ -85,7 +86,7 @@ const Test = () => {
     <section style={{backgroundColor: '#e5e7eb'}} className="py-20 bg-white/50 backdrop-blur-sm">
   <div className="container mx-auto px-4">
     <div className="text-center mb-16">
-      <h2 className="text-4xl font-serif text-slate-800 mb-4">Por que escolher The Politti's?</h2>
+      <h2 className="text-4xl font-serif text-slate-800 mb-4">Por que escolher The Politti&apos;s?</h2>
       <p className="text-lg text-slate-600 max-w-2xl mx-auto">
         Cada doce é uma obra de arte, feito com ingredientes selecionados e muito carinho
       </p>
@@ -171,7 +172,7 @@ const MenuSession = () => {
     <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
       <div className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
         <div className="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
-          <img
+          <Image
             src={sweet.src}
             className="w-full h-full object-cover"
             alt="Bolo artesanal"
@@ -192,7 +193,7 @@ const MenuSession = () => {
       </div>
       <div className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
         <div className="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
-          <img
+          <Image
             src={doce.src}
             className="w-full h-full object-cover"
             alt="Bolo artesanal"
@@ -213,7 +214,7 @@ const MenuSession = () => {
       </div>
       <div className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
         <div className="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
-          <img
+          <Image
             src={especial.src}
             className="w-full h-full object-cover"
             alt="Bolo artesanal"

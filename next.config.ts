@@ -4,8 +4,6 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
   devIndicators: {
-    buildActivity: false,
-    appIsrStatus: false,
     position: undefined
   },
 
