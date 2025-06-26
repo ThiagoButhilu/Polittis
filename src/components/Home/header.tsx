@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import cookie from '@/../public/cookie (1).png'
 import Image from "next/image";
-import { CheckCircle, Gift, MenuIcon} from "lucide-react";
+import { MenuIcon } from "lucide-react";
 import { useState } from 'react';
 
 
