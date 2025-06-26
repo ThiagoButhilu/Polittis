@@ -69,5 +69,5 @@ const kit6: Kit = new Kit(
 
 
 export const kitsData: Kit[] = [
- kit1, kit2, kit3, kit4, kit4, kit6
+ kit1, kit2, kit3, kit4, kit4, kit5, kit6
 ];
