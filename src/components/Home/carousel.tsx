@@ -28,6 +28,8 @@ export const Carousel = () => {
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30 px-8 py-4 flex flex-col justify-center items-center">
                 <span className="relative mb-2 w-24 h-auto max-w-full drop-shadow-lg flex justify-center items-center">
                 <Image
+                    width={0}
+                    height={0}
                     alt='bake'
                     src={bake.src}
                     className="w-full h-auto"
@@ -64,6 +66,8 @@ export const Carousel = () => {
                 style={{ pointerEvents: current === idx ? "auto" : "none" }}
                 >
                 <Image
+                    height={0}
+                    width={0}
                     src={img.src}
                     className="absolute block w-full h-full object-cover top-0 left-0"
                     alt={`Slide ${idx + 1}`}

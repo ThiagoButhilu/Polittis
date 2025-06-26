@@ -48,6 +48,8 @@ export const Galery = () => {
                         <div className="relative w-full max-w-lg mx-auto lg:mx-0">
                             <div className="aspect-square bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden rounded-xl shadow-lg">
                                 <Image
+                                    width={0}
+                                    height={0}
                                     src={galeryImages[current]}
                                     alt={`Foto ${current + 1}`}
                                     className="w-full h-full object-cover transition-all duration-500"

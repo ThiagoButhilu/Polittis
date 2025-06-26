@@ -28,7 +28,7 @@ const AboutMe = () => {
               <div className="relative">
                 <div className="w-full h-96 bg-gradient-to-br from-sky-100 to-indigo-100 rounded-2xl shadow-xl flex items-center overflow-hidden justify-center">
                   <div className="text-center">
-                    <Image src={profile.src} alt='profile'/>
+                    <Image width={600} height={500} src={profile.src} alt='profile'/>
                   </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 w-32 h-32 bg-sky-600/10 rounded-full blur-xl"></div>
@@ -139,7 +139,7 @@ const Location = () => {
 
   return (
     <section className="container mx-auto mb-12 px-4 py-8">
-      <h2 className="text-2xl font-semibold text-custom-black mt-10 mb-10 text-center">Nossa localização</h2>
+      <h2 className="'text-2xl font-semibold text-custom-black mt-10 mb-10 text-center">Nossa localização</h2>
       <div className="w-full rounded-none overflow-hidden shadow-lg border border-gray-200">
         <iframe
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d16873.929268997734!2d-51.398757632583596!3d-22.12413623033236!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9493f4fbf6bb24b1%3A0xd4d0285217fd07e1!2sCentro%2C%20Pres.%20Prudente%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1750714066274!5m2!1spt-BR!2sbr"
@@ -173,6 +173,8 @@ const MenuSession = () => {
       <div className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
         <div className="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
           <Image
+            height={100}
+            width={100}
             src={sweet.src}
             className="w-full h-full object-cover"
             alt="Bolo artesanal"
@@ -194,6 +196,8 @@ const MenuSession = () => {
       <div className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
         <div className="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
           <Image
+            width={100}
+            height={100}
             src={doce.src}
             className="w-full h-full object-cover"
             alt="Bolo artesanal"
@@ -215,6 +219,8 @@ const MenuSession = () => {
       <div className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
         <div className="h-48 bg-gradient-to-br from-pink-100 to-rose-100 flex items-center justify-center overflow-hidden">
           <Image
+            width={100}
+            height={100}
             src={especial.src}
             className="w-full h-full object-cover"
             alt="Bolo artesanal"

@@ -1,28 +1,19 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+
 import Header from '@/components/Home/header';
 import { Footer } from '@/components/Home/footer';
-import "@/style/core.scss";
+import "./globals.css"
 import faWhatsapp  from "@/../public/whatsapp2.png";
 import Image from "next/image";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
 
 const WhatsApp = () => {
   return (
     <a href="https://api.whatsapp.com/send?phone=18981268295&text=Olá! Tenho interesse em doces do The Politti's" target="_blank" className="whatsapp-button">
-      <Image src={faWhatsapp.src} alt="whatsapp"/>
+      <Image width={100} height={100} src={faWhatsapp.src} alt="whatsapp"/>
     </a>
   );
 };
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Politti's",
@@ -37,7 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`antialiased`}
       >
         <Header/>
         {children}

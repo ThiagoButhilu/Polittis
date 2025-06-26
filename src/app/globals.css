@@ -1,4 +1,29 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap');
+
+
+.font-great-vibes {
+    font-family: 'Great Vibes' cursive !important;
+    font-weight: 400;
+    font-style: normal;
+}
+
+    .whatsapp-button img {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    z-index: 100;
+}
+
+.whatsapp-button img:hover {
+    transform: scale(1.1);
+    transition: all 0.3s ease;
+}
+
+
 
 :root {
   --background: #ffffff;

@@ -17,6 +17,8 @@ export class Product {
           alt="Cupcakes Variados" 
           className="w-full h-48 object-cover" 
           src={this.imagem}
+          width={100}
+          height={100}
         />
         <div className="p-4">
           <h3 className="text-lg font-semibold text-custom-black mb-1">

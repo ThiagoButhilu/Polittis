@@ -8,27 +8,45 @@ export default function Header() {
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <Link href="/" className="flex items-center space-x-2">
           <Image
+            height={0}
+            width={0}
             src={cookie.src}
             alt="Logo"
             className="h-8 w-auto object-contain"
           />
-          <span className="font-parisienne text-3xl text-custom-black">
+          <span className={`font-great-vibes text-3xl text-custom-black`}>
             Politti&apos;s
           </span>
         </Link>
-        <div className="flex items-center space-x-4">
-          <button className="text-custom-black hover:text-gray-700">
-            <span className="material-icons">search</span>
-          </button>
-          <button className="text-custom-black hover:text-gray-700 relative">
-            <span className="material-icons">shopping_cart</span>
-            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">
-              3
-            </span>
-          </button>
-          <button className="text-custom-black hover:text-gray-700">
-            <span className="material-icons">menu</span>
-          </button>
+        <div className="flex items-center gap-3 space-x-4">
+          <Link href="/">
+          <span className="text-custom-black hover:text-pink-500">
+            Inicio
+          </span>
+          </Link>
+          <Link href="/">
+          <span className="text-custom-black hover:text-pink-500">
+            Pronta entrega
+          </span>
+          </Link>
+          <Link href="/order">
+          <span className="text-custom-black hover:text-pink-500 relative">
+            Encomendar
+          </span>
+          </Link>
+          <Link href="/">
+          <span className="text-custom-black hover:text-pink-500">
+            Pedidos
+          </span>
+          </Link>
+        </div>
+        <div>
+          <Link href="">
+            <span className="text-custom-black hover:text-pink-500">Contate-nos</span>
+          </Link>
+          <Link href="">
+            <span></span>
+          </Link>
         </div>
       </div>
     </header>
