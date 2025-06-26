@@ -65,12 +65,14 @@ constructor(
             <span className="text-sm text-slate-600 ml-1">por kit</span>
           </div>
           
+          <a>
           <div 
             className="gap-2 rounded-md p-2 items-center flex bg-purple-600 hover:bg-purple-700 text-white"
           >
             <Gift className="w-4 h-4 mr-2" />
             Encomendar
           </div>
+          </a>
         </div>
       </div>
     </div>
