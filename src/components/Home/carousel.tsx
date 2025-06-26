@@ -39,7 +39,7 @@ export const Carousel = () => {
                 />
                 </span>
                 <span
-                className="font-parisienne text-white text-5xl sm:text-6xl md:text-8xl font-bold drop-shadow-lg select-none text-center w-full"
+                className="font-great-vibes text-white text-5xl sm:text-6xl md:text-8xl font-bold drop-shadow-lg select-none text-center w-full"
                 style={{ textShadow: "rgb(0, 0, 0) -1px -1px 20px, rgb(0, 0, 0) -1px -2px 12px" }}
                 >
                 The Politti&apos;s

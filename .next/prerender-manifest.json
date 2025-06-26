@@ -54,30 +54,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/order": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/order",
-      "dataRoute": "/order.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/": {
       "experimentalBypassFor": [
         {
@@ -101,13 +77,37 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/order": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/order",
+      "dataRoute": "/order.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "4d305045e40ef070168ae69fbc15580d",
-    "previewModeSigningKey": "756d9bc8cbe1496535cfc065b9ffb03ece5fd77535025ef0decee4cc86433bbc",
-    "previewModeEncryptionKey": "079090fbcb54de5053f7cce57db3f3fbde4380f53dd1a74e1af0edeb21f52e32"
+    "previewModeId": "91f27cf6adea058b21a8c8fefe670480",
+    "previewModeSigningKey": "e88c3a14c351ec1835c0956067a2b3f406c1e99e7d3ee92772c6902262441cb4",
+    "previewModeEncryptionKey": "8f95af3af55809d69f96e73fe831a52b2a5b23a9ee758fa1ddde0d9fd54b868a"
   }
 }
