@@ -3,6 +3,8 @@
 import { CheckCircle, Gift } from "lucide-react";
 import Image from "next/image";
 import React from "react";
+import { redirect } from 'next/navigation'
+
 
 export class Kit {
   constructor(
@@ -77,7 +79,7 @@ export function KitCard({ kit }: KitCardProps) {
           <a>
             <button
               className="gap-2 rounded-md p-2 items-center flex bg-purple-600 hover:bg-purple-700 text-white"
-              onClick={() => (window.location.href = `/order/${kit.id}`)}
+              onClick={() => (redirect(`/order/${kit.id}`))}
               type="button"
             >
               <Gift className="w-4 h-4 mr-2" />
