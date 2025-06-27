@@ -1,8 +1,8 @@
 {
   "/favicon.ico/route": "/favicon.ico",
   "/_not-found/page": "/_not-found",
-  "/order/page": "/order",
-  "/order/[orderid]/page": "/order/[orderid]",
+  "/products/page": "/products",
   "/page": "/",
-  "/products/page": "/products"
+  "/order/[orderid]/page": "/order/[orderid]",
+  "/order/page": "/order"
 }
