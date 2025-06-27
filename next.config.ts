@@ -7,8 +7,8 @@ const nextConfig: NextConfig = {
     position: undefined,
     
   },
-
-  output: "export", 
+  output: "export",
+  
    // Habilita exportação estática
   reactStrictMode: false,
   images: {
@@ -26,5 +26,7 @@ const nextConfig: NextConfig = {
     return config;
   },
 };
+module.exports = nextConfig
+
 
 export default nextConfig;
