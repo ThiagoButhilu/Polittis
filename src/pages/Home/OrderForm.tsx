@@ -1,3 +1,4 @@
+"use client"
 import { useState } from "react";
 import { CalendarDays, User, Phone, MapPin, MessageSquare } from "lucide-react";
 import { Kit } from "@/components/Product/Kit";

@@ -1,19 +1,24 @@
 // app/order/[orderid]/page.tsx
-"use client"
+
 import { kitsData } from '../../data/kitsData'
 import { Kit } from '@/components/Product/Kit'
-import { CheckCircle, ArrowLeft, ShoppingCart, Clock, Users } from "lucide-react";
+import { CheckCircle, ShoppingCart, Clock, Users } from "lucide-react";
 import OrderForm from "@/pages/Home/OrderForm"
 import Image from "next/image";
 
-
 import React from "react";
 
-export default function Page({ params }: { params: Promise<{ orderid: string }> }) {
-  const { orderid } = React.use(params);
+export function generateStaticParams() {
+  return kitsData.map(kit => ({
+    orderid: kit.id.toString(),
+  }));
+}
+
+export default async function Page({ params }: { params: Promise<{ orderid: string }> }) {
+  const { orderid } = await params;
   const orderIdNumber = Number(orderid);
   const k: Kit | undefined = kitsData.find(kit => Number(kit.id) === orderIdNumber);
-  const selectedImageIndex = 0; // Default to first image
+  const selectedImageIndex = 0;
 
   if (!k) {
     return (
@@ -36,13 +41,7 @@ export default function Page({ params }: { params: Promise<{ orderid: string }> 
       <nav />
       <div className="container mx-auto px-4 py-8">
         {/* Botão Voltar */}
-        <button
-          onClick={() => (window.location.href = `/order`)}
-          className="mb-6 text-slate-600 hover:text-sky-600 flex items-center"
-        >
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Voltar para Kits
-        </button>
+        
 
         <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
           {/* Galeria de Imagens */}

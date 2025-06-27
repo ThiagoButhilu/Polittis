@@ -5,12 +5,10 @@ import path from 'path';
 const nextConfig: NextConfig = {
   devIndicators: {
     position: undefined,
-    experimental: {
-    generateStaticParams: false
-  },
+    
   },
 
-  output: "standalone", 
+  output: "export", 
    // Habilita exportação estática
   reactStrictMode: false,
   images: {
