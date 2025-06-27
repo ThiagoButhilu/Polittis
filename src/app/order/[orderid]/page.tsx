@@ -1,5 +1,5 @@
 // app/order/[orderid]/page.tsx
-'use client'
+"use client"
 import { kitsData } from '../../data/kitsData'
 import { Kit } from '@/components/Product/Kit'
 import { CheckCircle, ArrowLeft, ShoppingCart, Clock, Users } from "lucide-react";
@@ -7,9 +7,12 @@ import OrderForm from "@/pages/Home/OrderForm"
 import Image from "next/image";
 
 
-export default async function Page({ params }: { params: { orderid: string } }) {
-  const orderid = params.orderid;
-  const k: Kit | undefined = kitsData.find(kit => String(kit.id) === orderid);
+import React from "react";
+
+export default function Page({ params }: { params: Promise<{ orderid: string }> }) {
+  const { orderid } = React.use(params);
+  const orderIdNumber = Number(orderid);
+  const k: Kit | undefined = kitsData.find(kit => Number(kit.id) === orderIdNumber);
   const selectedImageIndex = 0; // Default to first image
 
   if (!k) {
@@ -56,14 +59,16 @@ export default async function Page({ params }: { params: { orderid: string } }) 
             <div className="grid grid-cols-4 gap-2">
               {productImages.map((image, index) => (
                 <div
-                  key={index}
+                  key={image}
                   className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
                     selectedImageIndex === index
                       ? 'border-sky-600 ring-2 ring-sky-200'
                       : 'border-gray-200'
                   }`}
                 >
-                  <img
+                  <Image
+                    width={500}
+                    height={400}
                     src={image}
                     alt={`${k.name} ${index + 1}`}
                     className="w-full h-full object-cover"

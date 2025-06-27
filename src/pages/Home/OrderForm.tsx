@@ -35,7 +35,6 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
     alert('Encomenda enviada com sucesso! Entraremos em contato em breve.');
   };
 
-  const today = new Date().toISOString().split('T')[0];
   const minDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // 2 dias a partir de hoje
 
   return (

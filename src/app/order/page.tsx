@@ -15,7 +15,7 @@ const Kits = ({ kit }: KitsProps) => {
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {kit.map((k: Kit) => (
-              <KitCard kit={k}/>
+              <KitCard key={k.id} kit={k}/>
             ))}
           </div>
         </div>
