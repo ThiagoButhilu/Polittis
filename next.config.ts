@@ -4,11 +4,15 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
   devIndicators: {
-    position: undefined
+    position: undefined,
+    experimental: {
+    generateStaticParams: false
+  },
   },
 
-  output: "export",  // Habilita exportação estática
-  reactStrictMode: true,
+  output: "standalone", 
+   // Habilita exportação estática
+  reactStrictMode: false,
   images: {
     unoptimized: true,  // Desativa otimização de imagens para GitHub Pages
   },

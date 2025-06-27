@@ -1,3 +1,4 @@
+'use client'
 import React from "react";
 import img1 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.06.jpeg'
 import img2 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.34 (1).jpeg'

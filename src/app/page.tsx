@@ -1,4 +1,4 @@
-'use client';
+
 import { Carousel } from '@/components/Home/carousel';
 import { Galery } from '@/components/Home/galery';
 import { ChefHat, Award, Users, Star, Heart } from 'lucide-react';

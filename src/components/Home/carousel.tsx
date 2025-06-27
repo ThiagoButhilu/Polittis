@@ -1,3 +1,5 @@
+'use client'
+
 import Img1 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.47.58 (2).jpeg'
 import Img2 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.09.jpeg'
 import Img3 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.00.jpeg'
