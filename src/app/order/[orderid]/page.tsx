@@ -100,7 +100,7 @@ export default async function Page({ params }: { params: Promise<{ orderid: stri
             </div>
 
             {/* Itens Inclusos */}
-            <div className="bg-white/80 backdrop-blur-sm border-sky-100 p-4 rounded-lg">
+            <div className="bg-white/80 shadow-xl backdrop-blur-sm border-sky-100 p-4 rounded-lg">
               <div className="pb-3">
                 <div className="text-lg text-slate-800">Itens Inclusos</div>
               </div>
@@ -117,7 +117,7 @@ export default async function Page({ params }: { params: Promise<{ orderid: stri
             </div>
 
             {/* Preço e Formulário */}
-            <div className="bg-white/80 backdrop-blur-sm border-sky-100 p-4 rounded-lg">
+            <div className="bg-white/80 backdrop-blur-sm shadow-xl border-sky-100 p-4 rounded-lg">
               <div className="pt-6">
                 <div className="mb-6">
                   <div className="flex items-baseline space-x-2 mb-2">

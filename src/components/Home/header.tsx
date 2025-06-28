@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import cookie from '@/../public/cookie (1).png'
 import Image from "next/image";
-import { MenuIcon } from "lucide-react";
+import { MenuIcon, LogIn } from "lucide-react";
 import { useState } from 'react';
 
 
@@ -49,12 +49,13 @@ export default function Header() {
             </span>
           </Link>
         </div>
-        <div className="hidden sm:block">
+        <div className="flex gap-3 justify-end">
           <Link href="">
             <span className="text-custom-black hover:text-pink-500">Contate-nos</span>
           </Link>
-          <Link href="">
-            <span></span>
+          <Link className='hover:text-pink-500 gap-1 flex' href="/login">
+          <LogIn className='w-5'/>
+            <span>entrar</span>
           </Link>
         </div>
       </div>
