@@ -1,8 +1,8 @@
 {
   "/favicon.ico/route": "app/favicon.ico/route.js",
   "/_not-found/page": "app/_not-found/page.js",
-  "/page": "app/page.js",
   "/order/page": "app/order/page.js",
   "/products/page": "app/products/page.js",
+  "/page": "app/page.js",
   "/order/[orderid]/page": "app/order/[orderid]/page.js"
 }
