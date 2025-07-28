@@ -83,16 +83,16 @@ const Profile = () => {
                         <div className="w-20 h-20 bg-sky-600 rounded-full flex items-center justify-center mx-auto mb-4">
                             <User className="w-10 h-10 text-white" />
                         </div>
-                        <h1 className="text-3xl font-serif text-slate-800 mb-2">Meu Perfil</h1>
+                        <h1 className="text-3xl font-serif text-semibold text-slate-800 mb-2">Meu Perfil</h1>
                         <p className="text-slate-600">Gerencie suas informações pessoais e endereço de entrega</p>
                     </div>
 
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                         {/* Informações Pessoais */}
-                        <div className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                        <div className="shadow-lg border-0 rounded-md bg-white/80 backdrop-blur-sm">
                             <div className="flex flex-row items-center justify-between p-4">
                                 <div>
-                                    <div className="text-xl font-serif text-slate-800 flex items-center gap-2">
+                                    <div className="text-xl font-serif font-semibold text-slate-800 flex items-center gap-2">
                                         <User className="w-5 h-5 text-sky-600" />
                                         Informações Pessoais
                                     </div>
@@ -117,7 +117,7 @@ const Profile = () => {
                                             {...register("nome")}
                                             placeholder="Seu nome"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border border-gray-200 rounded"
                                         />
                                         {getError("nome") && (
                                             <span className="text-red-500 text-xs">{getError("nome")}</span>
@@ -129,7 +129,7 @@ const Profile = () => {
                                             {...register("sobrenome")}
                                             placeholder="Seu sobrenome"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border-gray-200 border rounded"
                                         />
                                         {getError("sobrenome") && (
                                             <span className="text-red-500 text-xs">{getError("sobrenome")}</span>
@@ -144,7 +144,7 @@ const Profile = () => {
                                             type="email"
                                             placeholder="seu@email.com"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border-gray-200 border rounded"
                                         />
                                         {getError("email") && (
                                             <span className="text-red-500 text-xs">{getError("email")}</span>
@@ -156,7 +156,7 @@ const Profile = () => {
                                             {...register("telefone")}
                                             placeholder="(11) 99999-9999"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border-gray-200 border rounded"
                                         />
                                         {getError("telefone") && (
                                             <span className="text-red-500 text-xs">{getError("telefone")}</span>
@@ -167,9 +167,9 @@ const Profile = () => {
                         </div>
 
                         {/* Endereço */}
-                        <div className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
+                        <div className="shadow-lg border-0 rounded-md bg-white/80 backdrop-blur-sm">
                             <div className="p-4">
-                                <div className="text-xl font-serif text-slate-800 flex items-center gap-2">
+                                <div className="text-xl font-semibold font-serif text-slate-800 flex items-center gap-2">
                                     <MapPin className="w-5 h-5 text-sky-600" />
                                     Endereço de Entrega
                                 </div>
@@ -185,7 +185,7 @@ const Profile = () => {
                                             {...register("endereco.rua")}
                                             placeholder="Nome da rua"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border-gray-200 border rounded"
                                         />
                                         {getError("endereco.rua") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.rua")}</span>
@@ -197,7 +197,7 @@ const Profile = () => {
                                             {...register("endereco.numero")}
                                             placeholder="123"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border border-gray-200 rounded"
                                         />
                                         {getError("endereco.numero") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.numero")}</span>
@@ -211,7 +211,7 @@ const Profile = () => {
                                             {...register("endereco.complemento")}
                                             placeholder="Apto, casa, etc."
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 border-gray-200 py-2 border rounded"
                                         />
                                         {getError("endereco.complemento") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.complemento")}</span>
@@ -223,7 +223,7 @@ const Profile = () => {
                                             {...register("endereco.bairro")}
                                             placeholder="Nome do bairro"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border border-gray-200 rounded"
                                         />
                                         {getError("endereco.bairro") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.bairro")}</span>
@@ -237,7 +237,7 @@ const Profile = () => {
                                             {...register("endereco.cidade")}
                                             placeholder="Sua cidade"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border border-gray-200 rounded"
                                         />
                                         {getError("endereco.cidade") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.cidade")}</span>
@@ -249,7 +249,7 @@ const Profile = () => {
                                             {...register("endereco.estado")}
                                             placeholder="SP"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border border-gray-200 rounded"
                                         />
                                         {getError("endereco.estado") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.estado")}</span>
@@ -261,7 +261,7 @@ const Profile = () => {
                                             {...register("endereco.cep")}
                                             placeholder="00000-000"
                                             disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border rounded"
+                                            className="bg-white/50 w-full px-3 py-2 border border-gray-200 rounded"
                                         />
                                         {getError("endereco.cep") && (
                                             <span className="text-red-500 text-xs">{getError("endereco.cep")}</span>

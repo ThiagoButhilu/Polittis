@@ -1,8 +1,9 @@
 export class User {
+    id: number = 0
     nome: string = "";
     sobrenome: string = "";
     email: string = "";
-    telefone: string = "";
+    telefone: number = 0;
     endereco: {
         rua: string;
         numero: string;

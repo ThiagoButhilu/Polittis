@@ -6,7 +6,7 @@ import Img3 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.00.jpeg
 import Img4 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.07 (1).jpeg'
 import Img5 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.38.jpeg'
 
-import bake from '@/../public/cookie (2).png'
+import bake from '@/../public/laugh.png'
 import Image from "next/image";
 
 
