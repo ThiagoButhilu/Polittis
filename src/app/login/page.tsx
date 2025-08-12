@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { LogIn, Eye, EyeOff } from "lucide-react";
 import cookie from "@/../public/cookie (2).png"
 import Image from "next/image";
+import { redirect } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -13,25 +16,35 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
- // const { toast } = useToast();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
+    
+
     // Simulação de login - aqui você integraria com sua API
     try {
-      // Simular delay de API
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      if (email && password) {
-        
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Login successful:", data);
+        router.push('/profile'); // Redireciona para a página de perfil após o login
         // Aqui você redirecionaria o usuário após o login
       } else {
+        console.log(response);
         throw new Error("Credenciais inválidas");
       }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -128,7 +141,7 @@ const Login = () => {
               <div className="text-center text-sm text-slate-600">
                 Não tem uma conta?{" "}
                 <Link 
-                  href="/registro" 
+                  href="/register" 
                   className="text-sky-600 hover:text-sky-700 hover:underline font-medium"
                 >
                   Cadastre-se aqui

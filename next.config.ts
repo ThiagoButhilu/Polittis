@@ -1,32 +1,23 @@
 import type { NextConfig } from "next";
 import path from 'path';
 
-
-const nextConfig: NextConfig = {
-  devIndicators: {
-    position: undefined,
-    
-  },
-  output: "export",
-  
-   // Habilita exportação estática
-  reactStrictMode: false,
+const nextConfig = {
+  experimental: {
+    staticHTML: false,
+    output: 'export',
+  } as NonNullable<NextConfig['experimental']>,
   images: {
-    unoptimized: true,  // Desativa otimização de imagens para GitHub Pages
+    unoptimized: true, 
   },
-  assetPrefix: process.env.NODE_ENV === 'production' ? '/Polittis/' : '',
-  basePath: process.env.NODE_ENV === 'production' ? '/Polittis' : '',
-
-
+    
+  reactStrictMode: true,
   webpack: (config) => {
     config.resolve.alias = {
       ...config.resolve.alias,
-      '@public': path.resolve(__dirname, 'public'),
+      '@': path.resolve(__dirname, 'src'),
     };
     return config;
   },
-};
-module.exports = nextConfig
+} as NextConfig;
 
-
-export default nextConfig;
+module.exports = nextConfig;

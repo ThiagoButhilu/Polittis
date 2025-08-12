@@ -49,13 +49,13 @@ export default function Header() {
             </span>
           </Link>
         </div>
-        <div className="flex gap-3 justify-end">
-          <Link href="">
+        <div className="flex gap-3 items-center justify-end">
+          <Link href="" className='text-center justify-center flex'>
             <span className="text-custom-black hover:text-pink-500">Contate-nos</span>
           </Link>
-          <Link className='hover:text-pink-500 gap-1 flex' href="/login">
+          <Link className='hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex' href="/login">
           <LogIn className='w-5'/>
-            <span>entrar</span>
+            <span >entrar</span>
           </Link>
         </div>
       </div>

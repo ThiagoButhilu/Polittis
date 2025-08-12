@@ -6,7 +6,7 @@ import Img3 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.00.jpeg
 import Img4 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.48.07 (1).jpeg'
 import Img5 from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.38.jpeg'
 
-import bake from '@/../public/laugh.png'
+import bake from '@/../public/cookie (2).png'
 import Image from "next/image";
 
 
@@ -34,18 +34,18 @@ export const Carousel = () => {
                     height={0}
                     alt='bake'
                     src={bake.src}
-                    className="w-full h-auto"
+                    className="w-full h-auto "
                     style={{
                     filter: "drop-shadow(0 0 16px #000) drop-shadow(0 2px 8px #000)"
                     }}
                 />
                 </span>
-                <span
-                className="font-great-vibes text-white text-5xl sm:text-6xl md:text-8xl font-bold drop-shadow-lg select-none text-center w-full"
-                style={{ textShadow: "rgb(0, 0, 0) -1px -1px 20px, rgb(0, 0, 0) -1px -2px 12px" }}
+                <h1
+                className="text-white text-6xl sm:text-6xl md:text-8xl drop-shadow-lg select-none text-center w-full"
+                style={{ textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)" }}
                 >
                 The Politti&apos;s
-                </span>
+                </h1>
                 <div className="mt-6 flex gap-4 w-100%">
                 <button
                     className="bg-pink-500 text-white font-semibold px-6 py-2 rounded shadow hover:bg-yellow-600 transition"
