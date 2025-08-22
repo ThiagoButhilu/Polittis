@@ -5,6 +5,8 @@ import { Footer } from '@/components/Home/footer';
 import "./globals.css"
 import faWhatsapp  from "@/../public/whatsapp2.png";
 import Image from "next/image";
+import Providers from "./providers";
+
 
 
 const WhatsApp = () => {
@@ -31,7 +33,7 @@ export default function RootLayout({
         className={`antialiased`}
       >
         <Header/>
-        {children}
+        <Providers>{children}</Providers>
         <WhatsApp/>
         <Footer/>
       </body>

@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 export async function POST(req: Request) {
     console.log("GET request received for user authentication");
  const query = `
-    SELECT password 
+    SELECT id, password 
     FROM user 
     WHERE email = ?
   `;
@@ -23,12 +23,13 @@ export async function POST(req: Request) {
     console.log("Query result:", result);
 
   if (result.length > 0) {
+    var userId = result[0].id;
     const storedHash = result[0].password;
     const isMatch = await bcrypt.compare(data.password, storedHash);
     console.log("Password match:", isMatch);
     if (isMatch) {
       status = 200;
-      body = { message: "Login successful" };
+      body = { message: "Login successful", userId };
     } else {
       status = 401;
       body = { message: "Login failed" };

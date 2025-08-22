@@ -5,10 +5,8 @@ import Link from 'next/link';
 import { LogIn, Eye, EyeOff } from "lucide-react";
 import cookie from "@/../public/cookie (2).png"
 import Image from "next/image";
-import { redirect } from 'next/navigation'
 import { useRouter } from 'next/navigation'
-
-
+import { signIn } from "next-auth/react";
 
 
 const Login = () => {
@@ -22,31 +20,16 @@ const Login = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    
+    const result = await signIn("credentials", {
+      redirect: false,
+      email,
+      password,
+    });
 
-    // Simulação de login - aqui você integraria com sua API
-    try {
-      const response = await fetch('/api/auth', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Login successful:", data);
-        router.push('/profile'); // Redireciona para a página de perfil após o login
-        // Aqui você redirecionaria o usuário após o login
-      } else {
-        console.log(response);
-        throw new Error("Credenciais inválidas");
-      }
-    } catch (error) {
-        console.log(error);
-    } finally {
-      setIsLoading(false);
+    if (result?.error) {
+      console.error("Login falhou", result.error);
+    } else {
+      router.push("/profile");
     }
   };
 

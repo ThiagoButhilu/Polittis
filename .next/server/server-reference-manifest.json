@@ -1,50 +1,5 @@
 {
-  "node": {
-    "60593e37e1b71e0c0691bc3c519542ecf0f874e86d": {
-      "workers": {
-        "app/api/auth/route": {
-          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fthico%2FDocuments%2Fprojetos%2FPolittis%2Fsrc%2Fapp%2Fapi%2Fauth%2Froute.ts%22%2C%5B%7B%22id%22%3A%2240a907cbfe4e96345351a83e7226438fe815f94dd7%22%2C%22exportedName%22%3A%22POST%22%7D%5D%5D%5D&__client_imported__=!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/api/auth/route": "rsc"
-      }
-    },
-    "40a907cbfe4e96345351a83e7226438fe815f94dd7": {
-      "workers": {
-        "app/api/auth/route": {
-          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fthico%2FDocuments%2Fprojetos%2FPolittis%2Fsrc%2Fapp%2Fapi%2Fauth%2Froute.ts%22%2C%5B%7B%22id%22%3A%2240a907cbfe4e96345351a83e7226438fe815f94dd7%22%2C%22exportedName%22%3A%22POST%22%7D%5D%5D%5D&__client_imported__=!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/api/auth/route": "rsc"
-      }
-    },
-    "40aaef8970938b262a03f1b8016ee91516f156f391": {
-      "workers": {
-        "app/api/user/route": {
-          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fthico%2FDocuments%2Fprojetos%2FPolittis%2Fsrc%2Fapp%2Fapi%2Fuser%2Froute.ts%22%2C%5B%7B%22id%22%3A%2240aaef8970938b262a03f1b8016ee91516f156f391%22%2C%22exportedName%22%3A%22POST%22%7D%2C%7B%22id%22%3A%2260f89911cc2a76bf0db04758521668dc1cf7a5856a%22%2C%22exportedName%22%3A%22GET%22%7D%5D%5D%5D&__client_imported__=!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/api/user/route": "rsc"
-      }
-    },
-    "60f89911cc2a76bf0db04758521668dc1cf7a5856a": {
-      "workers": {
-        "app/api/user/route": {
-          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2FUsers%2Fthico%2FDocuments%2Fprojetos%2FPolittis%2Fsrc%2Fapp%2Fapi%2Fuser%2Froute.ts%22%2C%5B%7B%22id%22%3A%2240aaef8970938b262a03f1b8016ee91516f156f391%22%2C%22exportedName%22%3A%22POST%22%7D%2C%7B%22id%22%3A%2260f89911cc2a76bf0db04758521668dc1cf7a5856a%22%2C%22exportedName%22%3A%22GET%22%7D%5D%5D%5D&__client_imported__=!",
-          "async": false
-        }
-      },
-      "layer": {
-        "app/api/user/route": "rsc"
-      }
-    }
-  },
+  "node": {},
   "edge": {},
-  "encryptionKey": "r2iMaODOao7wqrQ8/nBHNRP01kx2/FdW823T7sjDqF8="
+  "encryptionKey": "Tv27sIdI85/fZc/lCecX50+GKvX49TeRo7LYHJFYa8Q="
 }

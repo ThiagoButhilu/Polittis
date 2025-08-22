@@ -1,11 +1,14 @@
 'use client'
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { User, MapPin, Save, Edit3 } from "lucide-react";
 import { zodResolver } from "@hookform/resolvers/zod";
- import type { FieldErrors } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation'
 
+
+ 
 const profileSchema = z.object({
     nome: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
     sobrenome: z.string().min(2, "Sobrenome deve ter pelo menos 2 caracteres"),
@@ -22,10 +25,23 @@ const profileSchema = z.object({
     })
 });
 
+
 type ProfileFormData = z.infer<typeof profileSchema>;
 
 const Profile = () => {
+
+      const router = useRouter();
+
+     const { data: session } = useSession();
+     console.log("Sessão do usuário:", session);
+     if(!session) {
+         router.push("/login")
+     }
+
+     
+
     const [isEditing, setIsEditing] = useState<boolean>(false);
+
 
     const form = useForm<ProfileFormData>({
         resolver: zodResolver(profileSchema),
@@ -58,7 +74,37 @@ const Profile = () => {
         }
     };
 
-    // Helper to get nested errors
+    useEffect(() => {
+  const fetchAddress = async () => {
+    try {
+      const res = await fetch("/api/user/address");
+      if (!res.ok) throw new Error("Erro ao buscar endereço");
+      const address = await res.json();
+
+      // preenche o formulário com os dados
+      form.reset({
+        ...form.getValues(), // mantém nome, sobrenome, etc. se você já tiver carregado
+        endereco: {
+          rua: address.rua || "",
+          numero: address.numero || "",
+          complemento: address.complemento || "",
+          bairro: address.bairro || "",
+          cidade: address.cidade || "",
+          estado: address.estado || "",
+          cep: address.cep || "",
+        },
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  
+    fetchAddress();
+  }, [session, form]);
+
+
+   
    
 
     const getError = (name: string) => {
