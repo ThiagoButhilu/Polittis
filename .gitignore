@@ -1,5 +1,6 @@
 # Node modules
 node_modules/
+prisma
 
 # Next.js build output
 .next/

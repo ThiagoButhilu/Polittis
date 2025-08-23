@@ -1,55 +1,49 @@
 'use server'
-import { apiGet, apiPost } from "../database";
-import bcrypt from 'bcrypt';
 
+import { prisma } from "../../../../.lib/prisma";
+// importa o Prisma Client
+import bcrypt from "bcrypt";
 
 export async function POST(req: Request) {
-    console.log("GET request received for user authentication");
- const query = `
-    SELECT id, password 
-    FROM user 
-    WHERE email = ?
-  `;
+  console.log("POST request received for user authentication");
 
- let status, body;
+  let status = 500;
+  let body: any = {};
 
-
- try {
-    
-     const data = await req.json();
+  try {
+    const data = await req.json();
     console.log("Data received for authentication:", data);
 
-    let result: any = await apiGet(query, [data.email])
-    console.log("Query result:", result);
+    // Busca o usuário pelo email
+    const user = await prisma.user.findUnique({
+      where: { email: data.email },
+      select: { id: true, password: true }, 
+    });
 
-  if (result.length > 0) {
-    var userId = result[0].id;
-    const storedHash = result[0].password;
-    const isMatch = await bcrypt.compare(data.password, storedHash);
-    console.log("Password match:", isMatch);
-    if (isMatch) {
-      status = 200;
-      body = { message: "Login successful", userId };
+    if (user) {
+      const isMatch = await bcrypt.compare(data.password, user.password);
+      console.log("Password match:", isMatch);
+
+      if (isMatch) {
+        status = 200;
+        body = { message: "Login successful", userId: user.id };
+      } else {
+        status = 401;
+        body = { message: "Login failed" };
+      }
     } else {
-      status = 401;
-      body = { message: "Login failed" };
+      status = 404;
+      body = { message: "User not found" };
     }
-  } else {
-    status = 404;
-    body = { message: "User not found" };
+
+    console.log("Response body:", body);
+    return Response.json(body, { status });
+
+  } catch (error: any) {
+    console.error("Error:", error);
+    return Response.json(
+      { error: error.message || "Unexpected error" },
+      { status: 500 }
+    );
   }
-  console.log("Response body:", body);
-  return Response.json(body, {
-    status,
-  });
- } catch (error: any) {
-    console.log(error);
-  console.error(error.message);
-  return Response.json(
-   { error: error },
-   {
-     status,
-   }
-  );
- } 
 }

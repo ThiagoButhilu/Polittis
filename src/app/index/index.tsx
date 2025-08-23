@@ -11,13 +11,6 @@ import especial from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.48.
 
 import profile from '@/../public/profile.jpg'
 
-import { setupDatabase } from '../api/databaseInit';
-
-export async function initializeApp() {
-  console.log('Inicializando o banco de dados...');
-  await setupDatabase();
-}
-
 const AboutMe = () => {
 
   return (
