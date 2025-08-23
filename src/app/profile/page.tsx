@@ -32,11 +32,16 @@ const Profile = () => {
 
       const router = useRouter();
 
-     const { data: session } = useSession();
-     console.log("Sessão do usuário:", session);
-     if(!session) {
-         router.push("/login")
-     }
+      const { data: session, status } = useSession();
+
+
+     
+useEffect(() => {
+    console.log("Sessão do usuário:", session);
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
 
      
 
@@ -74,23 +79,31 @@ const Profile = () => {
         }
     };
 
-    useEffect(() => {
+useEffect(() => {
+
+    
   const fetchAddress = async () => {
     try {
       const res = await fetch("/api/user/address");
       if (!res.ok) throw new Error("Erro ao buscar endereço");
-      const address = await res.json();
-
+      const date = await res.json();
+      
+      console.log('address' ,date)
+      const address = date.address
+      const dateUser = date.user
       // preenche o formulário com os dados
       form.reset({
-        ...form.getValues(), // mantém nome, sobrenome, etc. se você já tiver carregado
+        nome: "",
+            sobrenome: dateUser.name || "",
+            email: dateUser.email || "",
+            telefone: '', // mantém nome, sobrenome, etc. se você já tiver carregado
         endereco: {
-          rua: address.rua || "",
-          numero: address.numero || "",
-          complemento: address.complemento || "",
-          bairro: address.bairro || "",
-          cidade: address.cidade || "",
-          estado: address.estado || "",
+          rua: address.street || "",
+          numero: address.number || "",
+          complemento: address.comp || "",
+          bairro: address.district || "",
+          cidade: address.city || "",
+          estado: address.state || "",
           cep: address.cep || "",
         },
       });
@@ -98,6 +111,8 @@ const Profile = () => {
       console.error(err);
     }
   };
+
+  console.log('fetchAddress')
 
   
     fetchAddress();

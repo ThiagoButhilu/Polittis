@@ -8,14 +8,11 @@ export async function GET() {
     try {
     const session = await getServerSession(authOptions);
 
-    console.log('session', session);
-
     if (!session || !session.user) {
         console.log("Usuário não autenticado");
       return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
     }
     
-    // agora usa o id que vem do token
     const query = `SELECT *
                    FROM user WHERE email = ? LIMIT 1`;
     const result: any = await apiGet(query, [session.user.email]);
@@ -23,11 +20,8 @@ export async function GET() {
     const queryAddress = `SELECT * FROM address WHERE user_id = ? LIMIT 1`;
     const addressResult: any = await apiGet(queryAddress, [result[0].id]);
 
-    console.log("Endereço encontrado:", addressResult);
-
     const allData = { user: result[0], address: addressResult[0] };
 
-    console.log("Resultado da consulta:", allData);
 
     if (!allData.user || !allData.address) {
       return NextResponse.json({ error: "Endereço não encontrado" }, { status: 404 });

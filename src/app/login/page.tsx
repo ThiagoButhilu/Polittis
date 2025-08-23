@@ -1,13 +1,13 @@
 'use client'
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from 'next/link';
 import { LogIn, Eye, EyeOff } from "lucide-react";
 import cookie from "@/../public/cookie (2).png"
 import Image from "next/image";
 import { useRouter } from 'next/navigation'
 import { signIn } from "next-auth/react";
-
+import { useSession } from "next-auth/react";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
@@ -15,6 +15,16 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const router = useRouter();
+
+  
+  const { data: session, status } = useSession();
+      
+  useEffect(() => {
+      console.log("Sessão do usuário:", session);
+      if (status === "unauthenticated") {
+        router.push("/login");
+      }
+    }, [status, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
