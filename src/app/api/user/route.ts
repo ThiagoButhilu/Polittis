@@ -1,111 +1,85 @@
 'use server'
-import { apiGet, apiPost } from "../database";
-import bcrypt from 'bcrypt';
 
+import { Phone } from "lucide-react";
+import { prisma } from "../../../../.lib/prisma";
+import bcrypt from "bcrypt";
 
-export async function GET(req: Request, res: Response) {
- const query = `
-    SELECT * FROM user
-  `;
+// ================== GET ==================
+export async function GET() {
+  try {
+    const users = await prisma.user.findMany({
+      include: {
+        addresses: true, // já traz os endereços junto
+      },
+    });
 
- let status, body;
- try {
-  await apiGet(query, [])
-   .then((res) => {
-    status = 200;
-    body = res;
-   })
-   .catch((err: Error) => {
-    status = 400;
-    body = { error: err };
-   });
-  return Response.json(body, {
-   status,
-  });
- } catch (error: any) {
-  console.error(error.message);
-  return Response.json(
-   { error: error },
-   {
-    status: 400,
-   }
-  );
- }
+    return Response.json(users, { status: 200 });
+  } catch (error: any) {
+    console.error("Error fetching users:", error.message);
+    return Response.json(
+      { error: error.message },
+      { status: 400 }
+    );
+  }
 }
 
+// ================== POST ==================
 export async function POST(req: Request) {
-  const data = await req.json();
-  console.log("Data received:", data);
-
-  let status, responseBody;
   try {
+    const data = await req.json();
+    console.log("Data received:", data);
 
-    const checkQuery = `      SELECT * FROM user WHERE email = ?
-    `;
-    const existingUser = await apiGet(checkQuery, [data.email]);
-    
-    if(existingUser.length > 0) {
+    // Verifica se email já existe
+    const existingUser = await prisma.user.findUnique({
+      where: { email: data.email },
+    });
+
+    if (existingUser) {
       console.log("User already exists with this email");
-      status = 400;
-      responseBody = { message: "Usuário já existe!" };
-      return Response.json(responseBody, {
-        status,
-      });
-    } 
+      return Response.json(
+        { message: "Usuário já existe!" },
+        { status: 400 }
+      );
+    }
 
+    // Criptografa a senha
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(data.password, saltRounds);
-
     console.log("Hashed password:", hashedPassword);
-    // Query para inserir usuário
-    const userQuery = `
-      INSERT INTO user (name, email, password)
-      VALUES (?, ?, ?)
-    `;
-    const userResult = await apiPost(userQuery, [
-        data.name,
-        data.email,
-        hashedPassword
-    ]);
 
-    console.log("User created:", userResult);   
+    // Cria usuário + endereço em uma única transação
+    const user = await prisma.user.create({
+      data: {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        password: hashedPassword,
+        addresses: {
+          create: {
+            street: data.street,
+            number: data.number,
+            comp: data.complement,
+            cep: data.zip,
+            state: data.state,
+            city: data.city,
+            district: data.district,
+          },
+        },
+      },
+      include: { addresses: true }, // retorna também o endereço criado
+    });
 
-    // Obtém o ID do usuário recém inserido
-    console.log("User ID:", userResult.lastID);
-    const userId : number = userResult.lastID;
+    console.log("User created:", user);
 
-
-    // Query para inserir endereço
-    const addressQuery = `
-      INSERT INTO address (user_id, street, number, comp, cep, state, city, district)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    await apiPost(addressQuery, [
-      userId,
-      data.street,
-      data.number,
-      data.complement,
-      data.zip,
-      data.state,
-      data.city,
-      data.district
-    ]);
-
-    status = 200;
-    responseBody = { 
-      message: "User and address created successfully",
-      userId: userId
-    };
+    return Response.json(
+      { message: "User and address created successfully", user },
+      { status: 200 }
+    );
   } catch (error: any) {
-    console.log("Error creating user and address:", error.message);
-    status = 400;
-    responseBody = { 
-      error: error.message,
-      message: "Failed to create user and address"
-    };
+    console.error("Error creating user and address:", error.message);
+    return Response.json(
+      { error: error.message, message: "Failed to create user and address" },
+      { status: 400 }
+    );
   }
-
-  return Response.json(responseBody, {
-    status,
-  });
 }

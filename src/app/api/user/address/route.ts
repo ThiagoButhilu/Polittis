@@ -1,35 +1,41 @@
+// src/app/api/user/address/route.ts
 import { NextResponse } from "next/server";
-import { apiGet } from "../../database"; // ajusta o caminho
+import { prisma } from "../../../../../.lib/prisma"; // ajustado o caminho do import
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/route";
 
 export async function GET() {
-    console.log("GET request received for user address");
-    try {
+  console.log("GET request received for user address");
+  try {
     const session = await getServerSession(authOptions);
 
-    if (!session || !session.user) {
-        console.log("Usuário não autenticado");
+    if (!session || !session.user?.email) {
+      console.log("Usuário não autenticado");
       return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
     }
-    
-    const query = `SELECT *
-                   FROM user WHERE email = ? LIMIT 1`;
-    const result: any = await apiGet(query, [session.user.email]);
 
-    const queryAddress = `SELECT * FROM address WHERE user_id = ? LIMIT 1`;
-    const addressResult: any = await apiGet(queryAddress, [result[0].id]);
+    // Busca o usuário e já inclui o endereço relacionado
+    const user = await prisma.user.findUnique({
+      where: { email: session.user.email },
+      include: { addresses: true }, // pega o endereço junto
+    });
 
-    const allData = { user: result[0], address: addressResult[0] };
-
-
-    if (!allData.user || !allData.address) {
-      return NextResponse.json({ error: "Endereço não encontrado" }, { status: 404 });
+    if (!user || !user.addresses) {
+      return NextResponse.json(
+        { error: "Endereço não encontrado" },
+        { status: 404 }
+      );
     }
+
+    // user.address pode ser único ou uma lista, depende do seu schema
+    const allData = { user, addresses: user.addresses };
 
     return NextResponse.json(allData);
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ error: "Erro ao buscar endereço" }, { status: 500 });
+    console.error("Erro ao buscar endereço:", error);
+    return NextResponse.json(
+      { error: "Erro ao buscar endereço" },
+      { status: 500 }
+    );
   }
 }

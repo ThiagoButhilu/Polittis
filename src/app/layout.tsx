@@ -29,14 +29,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Providers>
       <body
         className={`antialiased`}
       >
         <Header/>
-        <Providers>{children}</Providers>
+        {children}
         <WhatsApp/>
         <Footer/>
       </body>
+      </Providers>
     </html>
   );
 }

@@ -11,15 +11,7 @@ import especial from '@/../public/ensaios/WhatsApp Image 2025-06-23 at 18.51.48.
 
 import profile from '@/../public/profile.jpg'
 
-import { initDatatable } from '../app/api/databaseInit';
-
-export async function initializeApp() {
-  console.log('Inicializando o banco de dados...');
-  await initDatatable();
-}
-
 const AboutMe = () => {
-    initializeApp();
   return (
     <section className="py-20 bg-gradient-to-br from-white/80 to-sky-50/80 backdrop-blur-sm">
       <div className="container mx-auto px-4">

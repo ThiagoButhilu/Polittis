@@ -10,6 +10,7 @@ import { redirect } from 'next/navigation'
 
 interface FormData {
   name: string;
+  phone: string;
   email: string;
   password: string;
   street: string;
@@ -75,13 +76,15 @@ const RegisterPage = () => {
                 }
             });
 
+            console.log(response)
+
             if (!response.ok) {
             const errorData = await response.json();
             setErrorMessage(errorData?.error || errorData?.message);
             return;
             }
             
-            redirect('/profile');
+            redirect('/login');
         } catch (error) {
             console.error('Erro ao enviar formulário:', error);
             alert('Erro ao enviar formulário. Por favor, tente novamente.');
@@ -141,7 +144,7 @@ const RegisterPage = () => {
 
                              <div>
                                 <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="email">
-                                    Nome *
+                                    Nome completo *
                                 </label>
                                 <input
                                     placeholder="Digite seu nome"
@@ -152,6 +155,40 @@ const RegisterPage = () => {
                                 />
                                 {typeof errors.name?.message === "string" && (
                                     <span className="text-xs text-red-500">{errors.name.message}</span>
+                                )}
+                            </div>
+                             <div>
+                                <label className="block text-sm font-medium text-slate-700 mb-1" htmlFor="email">
+                                    telefone *
+                                </label>
+                                <input
+                                    placeholder="Digite seu telefone"
+                                    id="phone"
+                                    type="tel"
+                                    inputMode="tel"
+                                    maxLength={15}
+                                    {...register("phone", { 
+                                        required: "Telefone é obrigatório",
+                                        pattern: {
+                                            value: /^\(?\d{2}\)?[\s-]?\d{4,5}-?\d{4}$/,
+                                            message: "Digite um telefone válido"
+                                        }
+                                    })}
+                                    className="bg-white/50 w-full border-1 rounded-sm p-2 border-gray-300"
+                                    onChange={e => {
+                                        let value = e.target.value.replace(/\D/g, "");
+                                        if (value.length <= 2) {
+                                            value = value.replace(/^(\d{0,2})/, "($1");
+                                        } else if (value.length <= 7) {
+                                            value = value.replace(/^(\d{2})(\d{0,5})/, "($1) $2");
+                                        } else {
+                                            value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, "($1) $2-$3");
+                                        }
+                                        e.target.value = value;
+                                    }}
+                                />
+                                {typeof errors.phone?.message === "string" && (
+                                    <span className="text-xs text-red-500">{errors.phone.message}</span>
                                 )}
                             </div>
 

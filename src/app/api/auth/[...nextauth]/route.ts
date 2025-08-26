@@ -2,12 +2,10 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { apiGet } from "../../database";
-
+import { prisma } from "../../../../../.lib/prisma"; // ajustado o caminho do import
 
 console.log("SECRET", process.env.NEXTAUTH_SECRET);
 console.log("URL", process.env.NEXTAUTH_URL);
-
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -20,23 +18,28 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        const query = `SELECT id, password FROM user WHERE email = ?`;
-        const result: any = await apiGet(query, [credentials.email]);
+        // Busca o usuário pelo email
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email },
+        });
 
-        if (!result || result.length === 0) return null;
+        if (!user) return null;
 
-        const user = result[0];
-        const isValid = await bcrypt.compare(credentials.password, user.password);
+        // Verifica senha com bcrypt
+        const isValid = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
 
         if (!isValid) return null;
 
-        // garante que user.id vai para o token
-        return { id: user.id, email: credentials.email };
+        // Retorna apenas os dados que irão para o token/session
+        return { id: user.id, email: user.email };
       },
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt", // usa JWT ao invés de session em banco
   },
   pages: {
     signIn: "/login",
@@ -45,7 +48,7 @@ export const authOptions: NextAuthOptions = {
 
   callbacks: {
     async jwt({ token, user }) {
-      // na primeira vez que o user loga, coloca o id no token
+      // na primeira vez que o user loga, adiciona infos no token
       if (user) {
         token.id = user.id;
         token.email = user.email;
@@ -53,7 +56,7 @@ export const authOptions: NextAuthOptions = {
       return token;
     },
     async session({ session, token }) {
-      // faz o id aparecer em session.user
+      // adiciona o id no objeto session.user
       if (session.user) {
         (session.user as any).id = token.id;
       }

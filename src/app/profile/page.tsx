@@ -87,16 +87,15 @@ useEffect(() => {
       const res = await fetch("/api/user/address");
       if (!res.ok) throw new Error("Erro ao buscar endereço");
       const date = await res.json();
-      
-      console.log('address' ,date)
-      const address = date.address
+
+      const address = date.addresses[0]
       const dateUser = date.user
       // preenche o formulário com os dados
       form.reset({
-        nome: "",
-            sobrenome: dateUser.name || "",
+            nome: dateUser.name || "",
+            sobrenome: "",
             email: dateUser.email || "",
-            telefone: '', // mantém nome, sobrenome, etc. se você já tiver carregado
+            telefone: dateUser.phone || "", // mantém nome, sobrenome, etc. se você já tiver carregado
         endereco: {
           rua: address.street || "",
           numero: address.number || "",

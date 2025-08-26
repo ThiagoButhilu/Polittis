@@ -4,13 +4,22 @@ import Link from 'next/link';
 import cookie from '@/../public/cookie (1).png'
 import Image from "next/image";
 import { MenuIcon, LogIn } from "lucide-react";
-import { useState } from 'react';
-
-
+import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
+  const [userMenu, setUserMenu] = useState<boolean>(false);
+  const [userName, setUserName] = useState<string>("");
 
+    const router = useRouter();
+    
+    const { data: session, status } = useSession();
+
+  useEffect(() => {
+    setUserName(session?.user?.email ? session.user.email : "Entrar");
+    }, [session, router]);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
@@ -53,10 +62,53 @@ export default function Header() {
           <Link href="" className='text-center justify-center flex'>
             <span className="text-custom-black hover:text-pink-500">Contate-nos</span>
           </Link>
-          <Link className='hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex' href="/login">
-          <LogIn className='w-5'/>
-            <span >entrar</span>
-          </Link>
+            {session ? (
+              <div className="relative">
+                <button
+                  className="hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex max-w-[120px] items-center"
+                  type="button"
+                  title={userName}
+                  onClick={() => setUserMenu((open) => !open)}
+                >
+                  <LogIn className="w-12" />
+                  <span className="truncate">{userName}</span>
+                </button>
+                {/* Dropdown */}
+                {userMenu && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-10">
+                    <Link
+                      href="/profile"
+                      className="block px-4 py-2 text-black hover:bg-pink-100"
+                    >
+                      Perfil
+                    </Link>
+                    <Link
+                      href="/orders"
+                      className="block px-4 py-2 text-black hover:bg-pink-100"
+                    >
+                      Pedidos
+                    </Link>
+                    <button
+                      className="block w-full text-left px-4 py-2 text-black hover:bg-pink-100"
+                      onClick={() => {
+                        import('next-auth/react').then(({ signOut }) => signOut());
+                      }}
+                    >
+                      Sair
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                className="hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex max-w-[120px]"
+                href="/login"
+                title={userName}
+              >
+                <LogIn className="w-12" />
+                <span className="truncate">{userName}</span>
+              </Link>
+            )}
         </div>
       </div>
       {/* Mobile menu */}

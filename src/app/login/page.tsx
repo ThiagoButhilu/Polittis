@@ -20,9 +20,8 @@ const Login = () => {
   const { data: session, status } = useSession();
       
   useEffect(() => {
-      console.log("Sessão do usuário:", session);
-      if (status === "unauthenticated") {
-        router.push("/login");
+      if (status === "authenticated") {
+        router.push("/profile");
       }
     }, [status, router]);
 
