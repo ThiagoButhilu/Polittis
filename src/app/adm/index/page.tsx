@@ -33,6 +33,11 @@ export default function Home() {
                         Produtos
                     </button>
                 </Link>
+                <Link href="/adm/products/new" className="w-full">
+                    <button className="w-full py-3 px-4 bg-amber-300 text-white rounded-md font-semibold hover:bg-amber-400 transition">
+                        Novo Produto
+                    </button>
+                </Link>
             </div>
         </div>
     );

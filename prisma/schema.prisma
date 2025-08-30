@@ -7,11 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ProductType {
+  SIMPLE   // Produto pronto para entrega
+  CUSTOM   // Produto encomendado (kit/composição)
+}
+
 model User {
   id       Int       @id @default(autoincrement())
   name     String
   phone    String
-  email    String @unique
+  email    String   @unique
   password String
 
   // Relações
@@ -22,7 +27,7 @@ model User {
 model Address {
   id       Int    @id @default(autoincrement())
   street   String
-  number   String  @unique
+  number   String
   comp     String?
   cep      String
   state    String
@@ -35,15 +40,24 @@ model Address {
 }
 
 model Product {
-  id          Int       @id @default(autoincrement())
+  id          Int          @id @default(autoincrement())
   name        String
   description String
   price       Float
-  image       String
+  image_url   String
   category    String
-  created_at  DateTime  @default(now())
+  created_at  DateTime     @default(now())
+  type        ProductType  @default(SIMPLE) 
+  requests    Request[]
+  components  ProductComponent[]
+}
 
-  requests Request[]
+model ProductComponent {
+  id         Int     @id @default(autoincrement())
+  name       String   // Ex: "Recheio de chocolate", "12 cupcakes"
+  quantity   Int?
+  product_id Int
+  product    Product @relation(fields: [product_id], references: [id])
 }
 
 model Request {

@@ -6,12 +6,18 @@ import bcrypt from "bcrypt";
 
 // ================== GET ==================
 export async function GET() {
+  console.log('Fetching users...');
   try {
     const users = await prisma.user.findMany({
-      include: {
-        addresses: true, // já traz os endereços junto
+      select: {
+      id: true,
+      name: true,
+      email: true,
+      phone: true,
       },
     });
+
+    console.log('Fetched users:', users);
 
     return Response.json(users, { status: 200 });
   } catch (error: any) {

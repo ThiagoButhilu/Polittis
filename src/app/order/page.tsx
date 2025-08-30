@@ -1,20 +1,29 @@
-
+"use client";
 import { Kit, KitCard } from "@/components/Product/Kit";
 import { CheckCircle, Gift } from "lucide-react";
 import { kitsData } from "@/app/data/kitsData";
+import { useEffect, useState } from "react";
 
 
+const Kits = () => {
+    const [kits, setKits] = useState(kitsData as Kit[]);
 
-type KitsProps = {
-  kit: Kit[];
-};
+    useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await fetch("/api/product?type=SIMPLE");
+      const data = await response.json();
+    
+      console.log("Fetched products:", data);
+    };
 
-const Kits = ({ kit }: KitsProps) => {
+    fetchProducts();
+  }, []);
+
     return (
         <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            {kit.map((k: Kit) => (
+            {kits.map((k) => (
               <KitCard key={k.id} kit={k}/>
             ))}
           </div>
@@ -53,7 +62,7 @@ export default function Home() {
     return(
         <>
             <Section/>
-            <Kits kit={kitsData}/>
+            <Kits/>
         </>
     )
 }

@@ -3,6 +3,7 @@ import { Clock, CheckCircle, Gift } from "lucide-react";
 
 
 const Section = () => {
+
     return (
          <section className="py-16 bg-gradient-to-r from-sky-600/10 to-indigo-600/10">
         <div className="container mx-auto px-4 text-center">

@@ -1,24 +1,30 @@
+'use client'
 // app/order/[orderid]/page.tsx
-
+import { useSession } from "next-auth/react";
 import { kitsData } from '../../data/kitsData'
 import { Kit } from '@/components/Product/Kit'
 import { CheckCircle, ShoppingCart, Clock, Users } from "lucide-react";
 import OrderForm from "@/pages/Home/OrderForm"
 import Image from "next/image";
 
-import React from "react";
+import React, { useEffect } from "react";
 
-export function generateStaticParams() {
-  return kitsData.map(kit => ({
-    orderid: kit.id.toString(),
-  }));
-}
 
-export default async function Page({ params }: { params: Promise<{ orderid: string }> }) {
-  const { orderid } = await params;
+const Page =  ({ params }: { params: { orderid: string } }) => {
+  const { orderid } =  params;
   const orderIdNumber = Number(orderid);
   const k: Kit | undefined = kitsData.find(kit => Number(kit.id) === orderIdNumber);
   const selectedImageIndex = 0;
+
+  
+    
+    const { data: session, status } = useSession();
+
+  useEffect(() => {
+      if (status === "authenticated") {
+        console.log("User is authenticated");
+      }
+    }, [status]);
 
   if (!k) {
     return (
@@ -164,4 +170,6 @@ export default async function Page({ params }: { params: Promise<{ orderid: stri
       </div>
     </div>
   );
-}
+};
+
+export default Page;
