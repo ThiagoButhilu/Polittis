@@ -1,19 +1,33 @@
 "use client";
-import { Kit, KitCard } from "@/components/Product/Kit";
+import {  KitCard } from "@/components/Product/Kit";
 import { CheckCircle, Gift } from "lucide-react";
 import { kitsData } from "@/app/data/kitsData";
 import { useEffect, useState } from "react";
 
 
+interface Kit {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url?: string; // Optional if not always present
+  components?: { name: string; quantity: number }[]; // Optional if not always present
+  type: string;
+}
+
 const Kits = () => {
-    const [kits, setKits] = useState(kitsData as Kit[]);
+    const [kits, setKits] = useState<Kit[]>([]);
 
     useEffect(() => {
     const fetchProducts = async () => {
-      const response = await fetch("/api/product?type=SIMPLE");
+      const response = await fetch("/api/product?type=CUSTOM");
       const data = await response.json();
-    
-      console.log("Fetched products:", data);
+      console.log('Products fetched from API:', data.products);
+      if(data.products.length > 0){
+        setKits(data.products);
+      } else {
+        alert('sem produtos')
+      }
     };
 
     fetchProducts();

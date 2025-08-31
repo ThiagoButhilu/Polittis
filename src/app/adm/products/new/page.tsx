@@ -30,6 +30,11 @@ export default function NewProductPage() {
     });
 
     const data = await res.json();
+    if(res.ok){
+      alert("Produto cadastrado com sucesso!");
+    }else{	
+      alert("Erro ao cadastrar produto: " + (data.error || "Erro desconhecido"));
+    }
     console.log("Produto cadastrado:", data);
     setLoading(false);
   }

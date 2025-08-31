@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation'
  
 const profileSchema = z.object({
     nome: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-    sobrenome: z.string().min(2, "Sobrenome deve ter pelo menos 2 caracteres"),
     email: z.string().email("Email inválido"),
     telefone: z.string().min(10, "Telefone deve ter pelo menos 10 dígitos"),
     endereco: z.object({
@@ -52,7 +51,6 @@ useEffect(() => {
         resolver: zodResolver(profileSchema),
         defaultValues: {
             nome: "",
-            sobrenome: "",
             email: "",
             telefone: "",
             endereco: {
@@ -93,9 +91,8 @@ useEffect(() => {
       // preenche o formulário com os dados
       form.reset({
             nome: dateUser.name || "",
-            sobrenome: "",
             email: dateUser.email || "",
-            telefone: dateUser.phone || "", // mantém nome, sobrenome, etc. se você já tiver carregado
+            telefone: dateUser.phone || "",
         endereco: {
           rua: address.street || "",
           numero: address.number || "",
@@ -170,7 +167,7 @@ useEffect(() => {
                                 </button>
                             </div>
                             <div className="space-y-4 p-4">
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="">
                                     <div>
                                         <label className="block font-medium mb-1">Nome</label>
                                         <input
@@ -183,18 +180,7 @@ useEffect(() => {
                                             <span className="text-red-500 text-xs">{getError("nome")}</span>
                                         )}
                                     </div>
-                                    <div>
-                                        <label className="block font-medium mb-1">Sobrenome</label>
-                                        <input
-                                            {...register("sobrenome")}
-                                            placeholder="Seu sobrenome"
-                                            disabled={!isEditing}
-                                            className="bg-white/50 w-full px-3 py-2 border-gray-200 border rounded"
-                                        />
-                                        {getError("sobrenome") && (
-                                            <span className="text-red-500 text-xs">{getError("sobrenome")}</span>
-                                        )}
-                                    </div>
+                            
                                 </div>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>

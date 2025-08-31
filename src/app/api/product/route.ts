@@ -2,9 +2,9 @@ import { NextResponse } from "next/server";
 import { prisma } from "../../../../.lib/prisma";
 import { promises as fs } from "fs";
 import path from "path";
+import { Cat } from "lucide-react";
 
 export async function POST(req: Request) {
-  console.log("Received request:", req);
   const formData = await req.formData();
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
@@ -15,12 +15,13 @@ export async function POST(req: Request) {
   // Converte string para valores válidos do schema
   const type = typeStr === "CUSTOM" ? "CUSTOM" : "SIMPLE";
 
+  console.log("Received product data:", { name, description, price, type, images });
+
   let quantity: number | null = null;
   if (type === "SIMPLE") {
     quantity = parseInt(formData.get("quantity") as string) || 1;
   }
 
-  // 1️⃣ Criar o produto no banco primeiro
   const product = await prisma.product.create({
     data: {
       name,
@@ -33,11 +34,31 @@ export async function POST(req: Request) {
     },
   });
 
-  // 2️⃣ Criar pasta do produto
+  if(type == "CUSTOM"){	
+    console.log('Product type is CUSTOM');
+
+    console.log('Form data components:', formData.get("kitItems"));
+
+    const componentsRaw = formData.get("kitItems");
+    const components: { name: string; quantity: number }[] = componentsRaw
+      ? JSON.parse(componentsRaw as string)
+      : [];
+
+    if (components.length > 0) {
+      await prisma.productComponent.createMany({
+        data: components.map((comp: { name: string; quantity: number }) => ({
+          product_id: product.id,
+          name: comp.name,
+          quantity: comp.quantity,
+        })),
+      });
+    }
+  }
+
   const productDir = path.join(process.cwd(), "public/product", product.id.toString());
   await fs.mkdir(productDir, { recursive: true });
 
-  // 3️⃣ Salvar imagens dentro da pasta do produto
+
   const imageUrls: string[] = [];
   for (const file of images) {
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -47,7 +68,7 @@ export async function POST(req: Request) {
     imageUrls.push(`/product/${product.id}/${filename}`);
   }
 
-  // 4️⃣ Atualizar o produto com a primeira imagem como imagem principal
+
   if (imageUrls.length > 0) {
     await prisma.product.update({
       where: { id: product.id },

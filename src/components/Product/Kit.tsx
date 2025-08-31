@@ -6,23 +6,20 @@ import React from "react";
 import { redirect } from 'next/navigation'
 
 
-export class Kit {
-  constructor(
-    public id: number,
-    public name: string,
-    public description: string,
-    public price: string,
-    public image: string,
-    public category: string,
-    public items: string[],
-    public serves: string,
-  ) {}
+interface Kit {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  image_url?: string;
+  components?: { name: string; quantity: number }[]; 
+  type: string;
 }
 
-// Client Component for rendering the Kit card
 interface KitCardProps {
   kit: Kit;
 }
+
 
 export function KitCard({ kit }: KitCardProps) {
   return (
@@ -32,16 +29,16 @@ export function KitCard({ kit }: KitCardProps) {
           <Image
             width={200}
             height={300}
-            src={kit.image}
+            src={kit.image_url || "/placeholder.png"}
             alt={kit.name}
             className="w-full h-full object-cover"
           />
         </div>
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
-          <span className="text-sm font-semibold text-slate-700">{kit.category}</span>
+          <span className="text-sm font-semibold text-slate-700"><Gift className="w-5 h-5 text-purple-600" /></span>
         </div>
         <div className="absolute bottom-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-          {kit.serves}
+          {'Kit'}
         </div>
       </div>
 
@@ -61,10 +58,10 @@ export function KitCard({ kit }: KitCardProps) {
         <div className="mb-4">
           <p className="text-sm text-slate-600 mb-2">Itens inclusos:</p>
           <div className="space-y-1">
-            {kit.items.map((item, index) => (
-              <div key={index} className="flex items-center space-x-2">
+            {kit.components?.map((item) => (
+              <div key={item.name} className="flex items-center space-x-2">
                 <CheckCircle className="w-3 h-3 text-green-500" />
-                <span className="text-xs text-slate-600">{item}</span>
+                <span className="text-xs text-slate-600">{item.quantity} {item.name}</span>
               </div>
             ))}
           </div>
@@ -72,7 +69,7 @@ export function KitCard({ kit }: KitCardProps) {
 
         <div className="flex items-center justify-between">
           <div>
-            <span className="text-2xl font-bold text-slate-800">{kit.price}</span>
+            <span className="text-2xl font-bold text-slate-800">R$ {kit.price}</span>
             <span className="text-sm text-slate-600 ml-1">por kit</span>
           </div>
 
