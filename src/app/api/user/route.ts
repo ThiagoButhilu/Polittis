@@ -1,6 +1,6 @@
 'use server'
 
-import { Phone } from "lucide-react";
+
 import { prisma } from "../../../../.lib/prisma";
 import bcrypt from "bcrypt";
 
@@ -20,10 +20,10 @@ export async function GET() {
     console.log('Fetched users:', users);
 
     return Response.json(users, { status: 200 });
-  } catch (error: any) {
-    console.error("Error fetching users:", error.message);
+  } catch (error: unknown) {
+    console.error("Error fetching users:", (error as Error).message);
     return Response.json(
-      { error: error.message },
+      { error: (error as Error).message },
       { status: 400 }
     );
   }
@@ -81,10 +81,10 @@ export async function POST(req: Request) {
       { message: "User and address created successfully", user },
       { status: 200 }
     );
-  } catch (error: any) {
-    console.error("Error creating user and address:", error.message);
+  } catch (error: unknown) {
+    console.error("Error creating user and address:", (error as Error).message);
     return Response.json(
-      { error: error.message, message: "Failed to create user and address" },
+      { error: (error as Error).message, message: "Failed to create user and address" },
       { status: 400 }
     );
   }

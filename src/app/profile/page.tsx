@@ -40,7 +40,7 @@ useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/login");
     }
-  }, [status, router]);
+  }, [status, session, router]);
 
      
 

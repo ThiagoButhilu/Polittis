@@ -1,11 +1,18 @@
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const { productId } = req.query;
+export async function GET(req: NextRequest) {
+  // Pega o productid da URL
+  const { pathname } = new URL(req.url);
+  const parts = pathname.split("/");
+  const productid = parts[parts.length - 1];
 
-  const dirPath = path.join(process.cwd(), "public", String(productId));
+  if (!productid) {
+    return NextResponse.json({ images: [] }, { status: 400 });
+  }
+
+  const dirPath = path.join(process.cwd(), "public", productid);
 
   try {
     const files = fs.readdirSync(dirPath);
@@ -14,11 +21,11 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       /\.(png|jpe?g|webp|gif)$/i.test(file)
     );
 
-    const imageUrls = images.map((file) => `/${productId}/${file}`);
+    const imageUrls = images.map((file) => `/${productid}/${file}`);
 
-    res.status(200).json({ images: imageUrls });
+    return NextResponse.json({ images: imageUrls });
   } catch (error) {
     console.error("Erro ao listar imagens:", error);
-    res.status(500).json({ images: [] });
+    return NextResponse.json({ images: [] }, { status: 500 });
   }
 }

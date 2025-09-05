@@ -14,7 +14,7 @@ export default function Header() {
   const [userName, setUserName] = useState<string>("");
 
   const router = useRouter();
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   useEffect(() => {
     setUserName(session?.user?.email ? session.user.email : "Entrar");

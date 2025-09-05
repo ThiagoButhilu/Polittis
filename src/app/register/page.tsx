@@ -60,7 +60,6 @@ interface FormData {
 
 const RegisterPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onSubmit = async (data: FormData) => {

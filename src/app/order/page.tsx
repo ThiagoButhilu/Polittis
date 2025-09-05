@@ -1,7 +1,6 @@
 "use client";
 import {  KitCard } from "@/components/Product/Kit";
 import { CheckCircle, Gift } from "lucide-react";
-import { kitsData } from "@/app/data/kitsData";
 import { useEffect, useState } from "react";
 
 

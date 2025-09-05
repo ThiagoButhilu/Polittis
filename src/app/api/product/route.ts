@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "../../../../.lib/prisma";
 import { promises as fs } from "fs";
 import path from "path";
-import { Cat } from "lucide-react";
+
 
 export async function POST(req: Request) {
   const formData = await req.formData();
@@ -12,6 +12,7 @@ export async function POST(req: Request) {
   const typeStr = formData.get("type") as string; // vem do form como string
   const images = formData.getAll("images") as File[];
   const category = formData.get("category") as string;
+
 
   // Converte string para valores válidos do schema
   const type = typeStr === "CUSTOM" ? "CUSTOM" : "SIMPLE";
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
     data: {
       name,
       description,
+      quantity: quantity,
       category: category,
       price,
       type,

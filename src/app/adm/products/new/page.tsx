@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 
 interface KitItem {
   name: string;
@@ -168,7 +169,7 @@ export default function NewProductPage() {
           <div className="flex flex-wrap gap-2 mt-2">
             {images.map((img, idx) => (
               <div key={idx} className="relative w-24 h-24 border rounded overflow-hidden">
-                <img
+                <Image
                   src={URL.createObjectURL(img)}
                   alt={`Imagem ${idx + 1}`}
                   className="object-cover w-full h-full"

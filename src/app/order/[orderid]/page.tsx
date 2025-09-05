@@ -1,12 +1,11 @@
 'use client'
-// app/order/[orderid]/page.tsx
+
 import { useSession } from "next-auth/react";
-import { kitsData } from '../../data/kitsData'
-import { CheckCircle, ShoppingCart, Clock, Users } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import OrderForm from "@/pages/Home/OrderForm"
 import Image from "next/image";
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 interface Kit {
   id: string;
@@ -20,25 +19,48 @@ interface Kit {
   type: string;
 }
 
-const Page =  async ({ params }: { params: { orderid: string } }) => {
-  const { orderid } =  params;
+const Page = () => {
+    const params = useParams();
+  const orderid = params?.orderid; // string | undefined
   const orderIdNumber = Number(orderid);
 
-  const selectedImageIndex = 0;  
-    const { data: session, status } = useSession();
+  const { data: session, status } = useSession();
+
+  const [kit, setKit] = useState<Kit | null>(null);
+  const [productImages, setProductImages] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-      if (status === "authenticated") {
-        console.log("User is authenticated:", session);
+    if (status === "authenticated") {
+      console.log("User is authenticated:", session);
+    }
+  }, [status, session]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/product/${orderIdNumber}`);
+        const data = await response.json();
+        setKit(data.product);
+
+        const resImages = await fetch(`/api/product/images/${orderIdNumber}`);
+        const { images } = await resImages.json();
+        setProductImages(images.length > 0 ? images : [data.product?.image_url || "/placeholder.png"]);
+      } catch (error) {
+        console.error("Erro ao buscar produto:", error);
+      } finally {
+        setLoading(false);
       }
-    }, [status]);
+    };
 
-    const response = await fetch(`/api/product/${orderIdNumber}`);
-    const data = await response.json();
-    console.log('Product fetched from API:', data.product);
-    const k: Kit | undefined = data.product;
+    fetchData();
+  }, [orderIdNumber]);
 
-  if (!k) {
+  if (loading) {
+    return <div className="text-center py-20">Carregando...</div>;
+  }
+
+  if (!kit) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100">
         <div className="container mx-auto px-4 py-16 text-center">
@@ -51,33 +73,25 @@ const Page =  async ({ params }: { params: { orderid: string } }) => {
     );
   }
 
-  // Array de imagens para galeria (usando as mesmas imagens como exemplo)
-const resImages = await fetch(`/api/product-images/${orderIdNumber}`);
-const { images } = await resImages.json();
-
-const productImages = images.length > 0 ? images : [k?.image_url || "/placeholder.png"];
+  const selectedImageIndex = 0;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100">
-      <nav />
       <div className="container mx-auto px-4 py-8">
-        {/* Botão Voltar */}
-        
-
         <div className="grid lg:grid-cols-2 gap-12 max-w-7xl mx-auto">
-          {/* Galeria de Imagens */}
+          {/* Galeria */}
           <div className="space-y-4">
             <div className="aspect-square rounded-lg overflow-hidden bg-white shadow-lg">
               <Image
                 width={500}
                 height={500}
-                src={k.image_url || "/placeholder.png"}
-                alt={k.name}
+                src={kit.image_url || "/placeholder.png"}
+                alt={kit.name}
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="grid grid-cols-4 gap-2">
-              {productImages.map((image: string, index: number) => (
+              {productImages.map((image, index) => (
                 <div
                   key={image}
                   className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
@@ -90,7 +104,7 @@ const productImages = images.length > 0 ? images : [k?.image_url || "/placeholde
                     width={500}
                     height={400}
                     src={image}
-                    alt={`${k.name} ${index + 1}`}
+                    alt={`${kit.name} ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
                 </div>
@@ -98,87 +112,24 @@ const productImages = images.length > 0 ? images : [k?.image_url || "/placeholde
             </div>
           </div>
 
-          {/* Informações do Produto */}
+          {/* Infos */}
           <div className="space-y-6">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-sm font-semibold">
-                  {k.category}
-                </span>
-              </div>
-              <h1 className="text-3xl font-serif text-slate-800 mb-4">{k.name}</h1>
-              <p className="text-lg text-slate-600 leading-relaxed mb-6">{k.description}</p>
-              <div className="flex items-center space-x-6 mb-6">
-                <div className="flex items-center space-x-2">
-                  <Users className="w-5 h-5 text-sky-600" />
-                  <span className="text-slate-700">serve 20 pessoas</span>
+            <h1 className="text-3xl font-serif text-slate-800 mb-4">{kit.name}</h1>
+            <p className="text-lg text-slate-600 mb-6">{kit.description}</p>
+            <div className="bg-white/80 shadow-xl p-4 rounded-lg">
+              {kit.components?.map((item, i) => (
+                <div key={i} className="flex items-center space-x-3">
+                  <CheckCircle className="w-5 h-5 text-green-500" />
+                  <span>{item.name} ({item.quantity})</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Clock className="w-5 h-5 text-purple-600" />
-                  <span className="text-slate-700">48h antecedência</span>
-                </div>
+              ))}
+            </div>
+            <div className="bg-white/80 shadow-xl p-4 rounded-lg">
+              <div className="flex items-baseline space-x-2 mb-2">
+                <span className="text-3xl font-bold">{kit.price}</span>
+                <span className="text-lg">por kit</span>
               </div>
-            </div>
-
-            {/* Itens Inclusos */}
-            <div className="bg-white/80 shadow-xl backdrop-blur-sm border-sky-100 p-4 rounded-lg">
-              <div className="pb-3">
-                <div className="text-lg text-slate-800">Itens Inclusos</div>
-              </div>
-              <div>
-                <div className="grid gap-3">
-                  {k.components?.map((item, index) => (
-                    <div key={index} className="flex items-center space-x-3">
-                      <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-slate-700">{item.name} ({item.quantity})</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Preço e Formulário */}
-            <div className="bg-white/80 backdrop-blur-sm shadow-xl border-sky-100 p-4 rounded-lg">
-              <div className="pt-6">
-                <div className="mb-6">
-                  <div className="flex items-baseline space-x-2 mb-2">
-                    <span className="text-3xl font-bold text-slate-800">{k.price}</span>
-                    <span className="text-lg text-slate-600">por kit</span>
-                  </div>
-                  <p className="text-sm text-slate-600">
-                    Preço especial para encomendas com 48h de antecedência
-                  </p>
-                </div>
-                <OrderForm kit={k} />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Informações Adicionais */}
-        <div className="mt-16 max-w-4xl mx-auto">
-          <h2 className="text-2xl font-serif text-slate-800 mb-6 text-center">Informações Importantes</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-white/80 backdrop-blur-sm border-sky-100 text-center p-6 rounded-lg">
-              <Clock className="w-8 h-8 text-purple-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-slate-800 mb-2">Prazo de Entrega</h3>
-              <p className="text-sm text-slate-600">
-                Mínimo de 48 horas para preparação com todo carinho
-              </p>
-            </div>
-            <div className="bg-white/80 backdrop-blur-sm border-sky-100 text-center p-6 rounded-lg">
-              <ShoppingCart className="w-8 h-8 text-sky-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-slate-800 mb-2">Entrega</h3>
-              <p className="text-sm text-slate-600">
-                Disponível para retirada na loja ou entrega local
-              </p>
-            </div>
-            <div className="bg-white/80 backdrop-blur-sm border-sky-100 text-center p-6 rounded-lg">
-              <CheckCircle className="w-8 h-8 text-green-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-slate-800 mb-2">Qualidade</h3>
-              <p className="text-sm text-slate-600">
-                Ingredientes frescos e preparo artesanal garantido
-              </p>
+              <OrderForm kit={kit} />
             </div>
           </div>
         </div>

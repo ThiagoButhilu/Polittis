@@ -63,7 +63,7 @@ export default function Home() {
                 </button>
                 </Link>
             </div>
-            <div className="overflow-x-auto flex justify-center">
+            <div className="overflow-visible flex justify-center">
                 <table className="min-w-2/3 divide-y divide-gray-200 border border-gray-300 rounded-lg">
                     <thead className="bg-gray-100">
                         <tr>

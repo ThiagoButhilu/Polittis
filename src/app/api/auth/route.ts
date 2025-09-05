@@ -4,11 +4,18 @@ import { prisma } from "../../../../.lib/prisma";
 // importa o Prisma Client
 import bcrypt from "bcrypt";
 
+
+type AuthResponse =
+  | { message: "Login successful"; userId: number }
+  | { message: "Login failed" }
+  | { message: "User not found" }
+  | { error: string };
+
 export async function POST(req: Request) {
   console.log("POST request received for user authentication");
 
   let status = 500;
-  let body: any = {};
+  let body: AuthResponse;
 
   try {
     const data = await req.json();
@@ -39,10 +46,10 @@ export async function POST(req: Request) {
     console.log("Response body:", body);
     return Response.json(body, { status });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Error:", error);
     return Response.json(
-      { error: error.message || "Unexpected error" },
+      { error: (error as Error).message || "Unexpected error" },
       { status: 500 }
     );
   }

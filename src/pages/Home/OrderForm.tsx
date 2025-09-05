@@ -1,7 +1,18 @@
 "use client"
 import { useState } from "react";
 import { CalendarDays, User, Phone, MapPin, MessageSquare } from "lucide-react";
-import { Kit } from "@/components/Product/Kit";
+
+interface Kit {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity?: number;
+  category: string;
+  image_url?: string;
+  components?: { name: string; quantity: number }[]; 
+  type: string;
+}
 
 
 interface ProductOrderFormProps {

@@ -1,6 +1,5 @@
 "use client";
 
-import users from "@/app/data/userData"
 import Link from "next/link";
 import { useEffect, useState } from "react";
 

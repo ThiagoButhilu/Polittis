@@ -1,4 +1,4 @@
-import { Gift, CheckCircle, Cake } from "lucide-react";
+import { Cake } from "lucide-react";
 import Image from "next/image";
 import { redirect } from 'next/navigation'
 
