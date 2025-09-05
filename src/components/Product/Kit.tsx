@@ -11,6 +11,7 @@ interface Kit {
   name: string;
   description: string;
   price: number;
+  category: string;
   image_url?: string;
   components?: { name: string; quantity: number }[]; 
   type: string;
@@ -35,7 +36,7 @@ export function KitCard({ kit }: KitCardProps) {
           />
         </div>
         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
-          <span className="text-sm font-semibold text-slate-700"><Gift className="w-5 h-5 text-purple-600" /></span>
+          <span className="text-sm font-semibold text-slate-700">{kit.category}</span>
         </div>
         <div className="absolute bottom-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
           {'Kit'}

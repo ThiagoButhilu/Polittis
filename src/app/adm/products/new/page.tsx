@@ -94,6 +94,14 @@ export default function NewProductPage() {
           required
         />
 
+        <input
+          type="text"
+          name="category"
+          placeholder="Categoria"
+          className="border rounded w-full p-2"
+          required
+        />
+
         {productType === "SIMPLE" && (
           <input
             type="number"

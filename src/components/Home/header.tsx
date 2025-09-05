@@ -13,109 +13,111 @@ export default function Header() {
   const [userMenu, setUserMenu] = useState<boolean>(false);
   const [userName, setUserName] = useState<string>("");
 
-    const router = useRouter();
-    
-    const { data: session, status } = useSession();
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     setUserName(session?.user?.email ? session.user.email : "Entrar");
-    }, [session, router]);
+  }, [session, router]);
 
   return (
     <header className="bg-white shadow-md sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-3 hidden sm:flex justify-between items-center">
+      {/* Desktop */}
+      <div className="container mx-auto px-4 py-3 hidden sm:grid grid-cols-3 items-center">
+        {/* Logo */}
+        <div className="flex items-center">
           <Link href="/" className="flex items-center space-x-2">
-          <Image
-            height={0}
-            width={0}
-            src={cookie.src}
-            alt="Logo"
-            className="h-8 w-auto object-contain"
-          />
-          <span className={`font-great-vibes text-3xl text-custom-black`}>
-            Politti&apos;s
-          </span>
-        </Link>
-        <div className="hidden sm:flex items-center gap-3 space-x-4">
-          <Link href="/">
-            <span className="text-custom-black hover:text-pink-500">
-              Inicio
+            <Image
+              height={0}
+              width={0}
+              src={cookie.src}
+              alt="Logo"
+              className="h-8 w-auto object-contain"
+            />
+            <span className="font-great-vibes text-3xl text-custom-black">
+              Politti&apos;s
             </span>
           </Link>
+        </div>
+
+        {/* Links centralizados */}
+        <div className="flex justify-center items-center gap-6">
           <Link href="/">
-            <span className="text-custom-black hover:text-pink-500">
-              Pronta entrega
-            </span>
+            <span className="text-custom-black hover:text-pink-500">Inicio</span>
+          </Link>
+          <Link href="/products">
+            <span className="text-custom-black hover:text-pink-500">Pronta entrega</span>
           </Link>
           <Link href="/order">
-            <span className="text-custom-black hover:text-pink-500 relative">
-              Encomendar
-            </span>
+            <span className="text-custom-black hover:text-pink-500">Encomendar</span>
           </Link>
           <Link href="/">
-            <span className="text-custom-black hover:text-pink-500">
-              Pedidos
-            </span>
+            <span className="text-custom-black hover:text-pink-500">Pedidos</span>
           </Link>
         </div>
-        <div className="flex gap-3 items-center justify-end">
-          <Link href="" className='text-center justify-center flex'>
+
+        {/* User menu */}
+        <div className="flex justify-end items-center gap-3">
+          <Link href="" className="text-center justify-center flex">
             <span className="text-custom-black hover:text-pink-500">Contate-nos</span>
           </Link>
-            {session ? (
-              <div className="relative">
-                <button
-                  className="hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex max-w-[120px] items-center"
-                  type="button"
-                  title={userName}
-                  onClick={() => setUserMenu((open) => !open)}
-                >
-                  <LogIn className="w-12" />
-                  <span className="truncate">{userName}</span>
-                </button>
-                {/* Dropdown */}
-                {userMenu && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-10">
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-black hover:bg-pink-100"
-                    >
-                      Perfil
-                    </Link>
-                    <Link
-                      href="/orders"
-                      className="block px-4 py-2 text-black hover:bg-pink-100"
-                    >
-                      Pedidos
-                    </Link>
-                    <button
-                      className="block w-full text-left px-4 py-2 text-black hover:bg-pink-100"
-                      onClick={() => {
-                        import('next-auth/react').then(({ signOut }) => signOut());
-                      }}
-                    >
-                      Sair
-                    </button>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <Link
-                className="hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex max-w-[120px]"
-                href="/login"
+          {session ? (
+            <div className="relative">
+              <button
+                className="hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex max-w-[120px] items-center"
+                type="button"
                 title={userName}
+                onClick={() => setUserMenu((open) => !open)}
               >
-                <LogIn className="w-12" />
+                <LogIn className="w-4" />
                 <span className="truncate">{userName}</span>
-              </Link>
-            )}
+              </button>
+              {/* Dropdown */}
+              {userMenu && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg z-10">
+                  <Link
+                    href="/profile"
+                    className="block px-4 py-2 text-black hover:bg-pink-100"
+                  >
+                    Perfil
+                  </Link>
+                  <Link
+                    href="/orders"
+                    className="block px-4 py-2 text-black hover:bg-pink-100"
+                  >
+                    Pedidos
+                  </Link>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-black hover:bg-pink-100"
+                    onClick={() => {
+                      import('next-auth/react').then(({ signOut }) => signOut());
+                    }}
+                  >
+                    Sair
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <Link
+              className="hover:text-pink-500 hover:border-pink-500 gap-1 border-1 p-3 rounded-lg text-cyan-600 border-cyan-600 flex max-w-[120px]"
+              href="/login"
+              title={userName}
+            >
+              <LogIn className="w-4" />
+              <span className="truncate">{userName}</span>
+            </Link>
+          )}
         </div>
       </div>
-      {/* Mobile menu */}
+
+      {/* Mobile */}
       <div className="sm:hidden" id="mobile-menu">
         <div className="relative flex items-center w-full h-16">
           <div className="absolute left-4">
-            <MenuIcon onClick={():void => isMobileMenuOpen ? setIsMobileMenuOpen(false) : setIsMobileMenuOpen(true)}/>
+            <MenuIcon
+              onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            />
           </div>
           <div className="mx-auto">
             <Link href="/" className="flex items-center space-x-2">
@@ -133,35 +135,34 @@ export default function Header() {
           </div>
         </div>
         {isMobileMenuOpen && (
-            <div className="space-y-1 absolute w-full px-2 pt-2 pb-3 bg-white/80 backdrop-blur-md">
-          <Link href="/">
-            <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
-              Inicio
-            </span>
-          </Link>
-          <Link href="/">
-            <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
-              Pronta entrega
-            </span>
-          </Link>
-          <Link href="/order">
-            <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
-              Encomendar
-            </span>
-          </Link>
-          <Link href="/">
-            <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
-              Pedidos
-            </span>
-          </Link>
-          <Link href="">
-            <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
-              Contate-nos
-            </span>
-          </Link>
-        </div>
+          <div className="space-y-1 absolute w-full px-2 pt-2 pb-3 bg-white/80 backdrop-blur-md">
+            <Link href="/">
+              <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
+                Inicio
+              </span>
+            </Link>
+            <Link href="/products">
+              <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
+                Pronta entrega
+              </span>
+            </Link>
+            <Link href="/order">
+              <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
+                Encomendar
+              </span>
+            </Link>
+            <Link href="/">
+              <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
+                Pedidos
+              </span>
+            </Link>
+            <Link href="">
+              <span className="block rounded-md px-3 py-2 text-base font-medium text-black hover:bg-pink-500 hover:text-white">
+                Contate-nos
+              </span>
+            </Link>
+          </div>
         )}
-        
       </div>
     </header>
   );

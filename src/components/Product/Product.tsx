@@ -1,45 +1,78 @@
+import { Gift, CheckCircle, Cake } from "lucide-react";
 import Image from "next/image";
+import { redirect } from 'next/navigation'
 
-export class Product {
-  constructor(
-    public id: number,
-    public nome: string,
-    public descricao: string,
-    public preco: number,
-    public imagem: string,
-    public category?: string
-  ) {}
 
-  renderCard() {
-    return (
-      <div className="bg-white rounded-lg shadow-md overflow-hidden">
-        <Image 
-          alt="Cupcakes Variados" 
-          className="w-full h-48 object-cover" 
-          src={this.imagem}
-          width={100}
-          height={100}
-        />
-        <div className="p-4">
-          <h3 className="text-lg font-semibold text-custom-black mb-1">
-            {this.nome}
-          </h3>
-          <p className="text-gray-600 text-sm mb-2">
-            {this.descricao}
-          </p>
-          <div className="flex justify-between items-center">
-            <span className="text-xl font-bold text-pink-500">
-              R$ {this.preco.toFixed(2).replace('.', ',')}
-            </span>
-            <button className="bg-pink-500 text-white px-3 py-1 rounded-full hover:bg-custom-blue-darker hover:text-custom-black transition-colors text-sm flex items-center">
-              <span className="material-icons text-sm mr-1"></span>
-              Adicionar
-            </button>
-          </div>
+interface Kit {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity?: number;
+  category: string;
+  image_url?: string;
+  components?: { name: string; quantity: number }[]; 
+  type: string;
+}
+
+interface KitCardProps {
+  kit: Kit;
+}
+
+export function renderProductCards({ kit }: KitCardProps) {
+  return (
+    <div className="rounded-lg border bg-card text-card-foreground shadow-sm group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 bg-white/80 backdrop-blur-sm border-sky-100 overflow-hidden">
+      <div className="relative">
+        <div className="h-48 bg-gradient-to-br from-sky-100 to-indigo-100">
+          <Image
+            width={200}
+            height={300}
+            src={kit.image_url || "/placeholder.png"}
+            alt={kit.name}
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-2 py-1 rounded-full">
+          <span className="text-sm font-semibold text-slate-700">{kit.quantity ? `${kit.quantity} disponíveis` : 'Esgotado'}</span>
+        </div>
+        <div className="absolute bottom-4 left-4 bg-purple-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+          {'Kit'}
         </div>
       </div>
-    );
-  }
-  
+
+      <div className="flex flex-col space-y-1.5 p-6 pb-3">
+        <div className="flex items-start justify-between">
+          <span className="ont-semibold leading-none tracking-tight text-xl text-slate-800 group-hover:text-sky-600 transition-colors">
+            {kit.name}
+          </span>
+        </div>
+      </div>
+
+      <div className="p-6 pt-0">
+        <p className="text-slate-600 mb-4 text-sm leading-relaxed">
+          {kit.description}
+        </p>
+
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-2xl font-bold text-slate-800">R$ {kit.price}</span>
+            <span className="text-sm text-slate-600 ml-1">por produto</span>
+          </div>
+
+          <a>
+            <button
+              className="gap-2 rounded-md p-2 items-center flex bg-green-600 hover:bg-green-700 text-white"
+              onClick={() => (redirect(`/products/${kit.id}`))}
+              type="button"
+            >
+              <Cake className="w-4 h-4 mr-2" />
+              comprar
+            </button>
+          </a>
+        </div>
+      </div>
+    </div>
+  );
 }
+
 

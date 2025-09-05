@@ -1,5 +1,50 @@
-
+'use client'
 import { Clock, CheckCircle, Gift } from "lucide-react";
+import { useEffect, useState } from "react";
+import {  renderProductCards } from "@/components/Product/Product";
+
+interface Kit {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity?: number;
+  category: string;
+  image_url?: string;
+  components?: { name: string; quantity: number }[]; 
+  type: string;
+}
+
+const Kits = () => {
+    const [kits, setKits] = useState<Kit[]>([]);
+
+    useEffect(() => {
+    const fetchProducts = async () => {
+      const response = await fetch("/api/product?type=SIMPLE");
+      const data = await response.json();
+      console.log('Products fetched from API:', data.products);
+      if(data.products.length > 0){
+        setKits(data.products);
+      } else {
+        alert('sem produtos')
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+    return (
+        <section className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+            {kits.map((k) => (
+              renderProductCards({ kit: k })
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+}
 
 
 const Section = () => {
@@ -8,20 +53,20 @@ const Section = () => {
          <section className="py-16 bg-gradient-to-r from-sky-600/10 to-indigo-600/10">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-4xl md:text-5xl font-serif text-slate-800 mb-4">
-            Kits para Encomenda
+            Produtos a Pronta Entrega
           </h1>
           <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-            Kits especiais para seus momentos únicos - Encomende com antecedência
+            Produtos disponíveis para envio imediato - Praticidade e qualidade em um só lugar
           </p>
           
           <div className="flex flex-wrap justify-center gap-4">
             <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
               <Clock className="w-5 h-5 text-sky-600" />
-              <span className="text-slate-700">48h de antecedência</span>
+              <span className="text-slate-700">Envio imediato</span>
             </div>
             <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
               <Gift className="w-5 h-5 text-purple-600" />
-              <span className="text-slate-700">Kits personalizados</span>
+              <span className="text-slate-700">Presentes</span>
             </div>
             <div className="flex items-center space-x-2 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg">
               <CheckCircle className="w-5 h-5 text-green-600" />
@@ -35,6 +80,9 @@ const Section = () => {
 
 export default function Home() {
     return(
+      <>
         <Section/>
+        <Kits/>
+      </>
     )
 }

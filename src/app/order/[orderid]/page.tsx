@@ -2,29 +2,41 @@
 // app/order/[orderid]/page.tsx
 import { useSession } from "next-auth/react";
 import { kitsData } from '../../data/kitsData'
-import { Kit } from '@/components/Product/Kit'
 import { CheckCircle, ShoppingCart, Clock, Users } from "lucide-react";
 import OrderForm from "@/pages/Home/OrderForm"
 import Image from "next/image";
 
 import React, { useEffect } from "react";
 
+interface Kit {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  quantity?: number;
+  category: string;
+  image_url?: string;
+  components?: { name: string; quantity: number }[]; 
+  type: string;
+}
 
-const Page =  ({ params }: { params: { orderid: string } }) => {
+const Page =  async ({ params }: { params: { orderid: string } }) => {
   const { orderid } =  params;
   const orderIdNumber = Number(orderid);
-  const k: Kit | undefined = kitsData.find(kit => Number(kit.id) === orderIdNumber);
-  const selectedImageIndex = 0;
 
-  
-    
+  const selectedImageIndex = 0;  
     const { data: session, status } = useSession();
 
   useEffect(() => {
       if (status === "authenticated") {
-        console.log("User is authenticated");
+        console.log("User is authenticated:", session);
       }
     }, [status]);
+
+    const response = await fetch(`/api/product/${orderIdNumber}`);
+    const data = await response.json();
+    console.log('Product fetched from API:', data.product);
+    const k: Kit | undefined = data.product;
 
   if (!k) {
     return (
@@ -40,7 +52,10 @@ const Page =  ({ params }: { params: { orderid: string } }) => {
   }
 
   // Array de imagens para galeria (usando as mesmas imagens como exemplo)
-  const productImages = [k.image];
+const resImages = await fetch(`/api/product-images/${orderIdNumber}`);
+const { images } = await resImages.json();
+
+const productImages = images.length > 0 ? images : [k?.image_url || "/placeholder.png"];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-100">
@@ -56,13 +71,13 @@ const Page =  ({ params }: { params: { orderid: string } }) => {
               <Image
                 width={500}
                 height={500}
-                src={productImages[selectedImageIndex]}
+                src={k.image_url || "/placeholder.png"}
                 alt={k.name}
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="grid grid-cols-4 gap-2">
-              {productImages.map((image, index) => (
+              {productImages.map((image: string, index: number) => (
                 <div
                   key={image}
                   className={`aspect-square rounded-lg overflow-hidden border-2 transition-all ${
@@ -96,7 +111,7 @@ const Page =  ({ params }: { params: { orderid: string } }) => {
               <div className="flex items-center space-x-6 mb-6">
                 <div className="flex items-center space-x-2">
                   <Users className="w-5 h-5 text-sky-600" />
-                  <span className="text-slate-700">{k.serves}</span>
+                  <span className="text-slate-700">serve 20 pessoas</span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <Clock className="w-5 h-5 text-purple-600" />
@@ -112,10 +127,10 @@ const Page =  ({ params }: { params: { orderid: string } }) => {
               </div>
               <div>
                 <div className="grid gap-3">
-                  {k.items.map((item, index) => (
+                  {k.components?.map((item, index) => (
                     <div key={index} className="flex items-center space-x-3">
                       <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                      <span className="text-slate-700">{item}</span>
+                      <span className="text-slate-700">{item.name} ({item.quantity})</span>
                     </div>
                   ))}
                 </div>

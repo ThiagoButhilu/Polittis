@@ -11,6 +11,7 @@ export async function POST(req: Request) {
   const price = parseFloat(formData.get("price") as string);
   const typeStr = formData.get("type") as string; // vem do form como string
   const images = formData.getAll("images") as File[];
+  const category = formData.get("category") as string;
 
   // Converte string para valores válidos do schema
   const type = typeStr === "CUSTOM" ? "CUSTOM" : "SIMPLE";
@@ -26,7 +27,7 @@ export async function POST(req: Request) {
     data: {
       name,
       description,
-      category: "",
+      category: category,
       price,
       type,
       image_url: "",

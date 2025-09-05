@@ -10,6 +10,7 @@ interface Kit {
   name: string;
   description: string;
   price: number;
+  category: string;
   image_url?: string; // Optional if not always present
   components?: { name: string; quantity: number }[]; // Optional if not always present
   type: string;
