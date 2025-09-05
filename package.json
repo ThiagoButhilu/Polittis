@@ -5,12 +5,13 @@
   "homepage": "https://ThiagoButhilu.github.io/Polittis",
   "scripts": {
     "dev": "next dev",
+    "postinstall": "prisma generate",
     "build": "next build",
     "start": "next start",
     "deploy": "gh-pages -d dist",
     "predeploy": "npm run build",
     "export": "next build && next export"
-  },
+},
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.7.2",
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
