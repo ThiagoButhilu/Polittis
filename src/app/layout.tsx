@@ -32,6 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/cookie.png" />
       <Providers>
       <body
         className={`antialiased`}

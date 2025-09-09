@@ -1,23 +1,17 @@
 import { NextResponse } from "next/server";
 import { prisma } from "../../../../.lib/prisma";
-import { promises as fs } from "fs";
-import path from "path";
-
+import { put } from "@vercel/blob";
 
 export async function POST(req: Request) {
   const formData = await req.formData();
   const name = formData.get("name") as string;
   const description = formData.get("description") as string;
   const price = parseFloat(formData.get("price") as string);
-  const typeStr = formData.get("type") as string; // vem do form como string
+  const typeStr = formData.get("type") as string;
   const images = formData.getAll("images") as File[];
   const category = formData.get("category") as string;
 
-
-  // Converte string para valores válidos do schema
   const type = typeStr === "CUSTOM" ? "CUSTOM" : "SIMPLE";
-
-  console.log("Received product data:", { name, description, price, type, images });
 
   let quantity: number | null = null;
   if (type === "SIMPLE") {
@@ -28,8 +22,8 @@ export async function POST(req: Request) {
     data: {
       name,
       description,
-      quantity: quantity,
-      category: category,
+      quantity,
+      category,
       price,
       type,
       image_url: "",
@@ -37,11 +31,7 @@ export async function POST(req: Request) {
     },
   });
 
-  if(type == "CUSTOM"){	
-    console.log('Product type is CUSTOM');
-
-    console.log('Form data components:', formData.get("kitItems"));
-
+  if (type === "CUSTOM") {
     const componentsRaw = formData.get("kitItems");
     const components: { name: string; quantity: number }[] = componentsRaw
       ? JSON.parse(componentsRaw as string)
@@ -49,7 +39,7 @@ export async function POST(req: Request) {
 
     if (components.length > 0) {
       await prisma.productComponent.createMany({
-        data: components.map((comp: { name: string; quantity: number }) => ({
+        data: components.map((comp) => ({
           product_id: product.id,
           name: comp.name,
           quantity: comp.quantity,
@@ -58,19 +48,18 @@ export async function POST(req: Request) {
     }
   }
 
-  const productDir = path.join(process.cwd(), "public/product", product.id.toString());
-  await fs.mkdir(productDir, { recursive: true });
-
-
+  // ✅ Upload no Vercel Blob
   const imageUrls: string[] = [];
   for (const file of images) {
     const buffer = Buffer.from(await file.arrayBuffer());
-    const filename = `${Date.now()}-${file.name}`;
-    const filePath = path.join(productDir, filename);
-    await fs.writeFile(filePath, buffer);
-    imageUrls.push(`/product/${product.id}/${filename}`);
-  }
+    const filename = `${product.id}-${Date.now()}-${file.name}`;
 
+    const blob = await put(`product/${filename}`, buffer, {
+      access: "public", // deixa acessível via URL pública
+    });
+
+    imageUrls.push(blob.url);
+  }
 
   if (imageUrls.length > 0) {
     await prisma.product.update({
