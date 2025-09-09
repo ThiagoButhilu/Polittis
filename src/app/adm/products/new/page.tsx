@@ -170,6 +170,8 @@ export default function NewProductPage() {
             {images.map((img, idx) => (
               <div key={idx} className="relative w-24 h-24 border rounded overflow-hidden">
                 <Image
+                  width={96}
+                  height={96}
                   src={URL.createObjectURL(img)}
                   alt={`Imagem ${idx + 1}`}
                   className="object-cover w-full h-full"
