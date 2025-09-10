@@ -36,3 +36,22 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Internal server error" }, { status: 500 });
     }
   }
+
+export async function GET(req: NextRequest) {
+
+  const { pathname } = new URL(req.url);
+  const parts = pathname.split("/");
+  const productid = parts[parts.length - 1];
+
+  if (!productid) {
+    return NextResponse.json({ images: [] }, { status: 400 });
+  }
+
+  try {
+    const product = await prisma.product.findUnique({ where: { id: Number(productid) }, include: { components: true } });
+    return NextResponse.json({ product });
+  }catch {
+    console.log('error to find product')
+    return NextResponse.json({ product: null }, { status: 500 });
+  }
+}

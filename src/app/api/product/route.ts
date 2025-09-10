@@ -48,14 +48,13 @@ export async function POST(req: Request) {
     }
   }
 
-  // ✅ Upload no Vercel Blob
   const imageUrls: string[] = [];
   for (const file of images) {
     const buffer = Buffer.from(await file.arrayBuffer());
     const filename = `${product.id}-${Date.now()}-${file.name}`;
 
-    const blob = await put(`product/${filename}`, buffer, {
-      access: "public", // deixa acessível via URL pública
+    const blob = await put(`product/${product.id}/${filename}`, buffer, {
+      access: "public",
     });
 
     imageUrls.push(blob.url);

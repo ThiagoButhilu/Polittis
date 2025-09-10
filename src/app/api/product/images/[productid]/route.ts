@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { list } from "@vercel/blob";
 
 export async function GET(req: NextRequest) {
-  // Pega o productid da URL
   const { pathname } = new URL(req.url);
   const parts = pathname.split("/");
   const productid = parts[parts.length - 1];
@@ -12,16 +10,15 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ images: [] }, { status: 400 });
   }
 
-  const dirPath = path.join(process.cwd(), "public", productid);
-
   try {
-    const files = fs.readdirSync(dirPath);
+    const prefix = `product/${productid}/`;
 
-    const images = files.filter((file) =>
-      /\.(png|jpe?g|webp|gif)$/i.test(file)
-    );
+    const { blobs } = await list({
+      prefix,
+      token: process.env.BLOB_READ_WRITE_TOKEN,
+    });
 
-    const imageUrls = images.map((file) => `/${productid}/${file}`);
+    const imageUrls = blobs.map((blob) => blob.url);
 
     return NextResponse.json({ images: imageUrls });
   } catch (error) {
