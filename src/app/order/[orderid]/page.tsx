@@ -1,7 +1,7 @@
 'use client'
 
 import { useSession } from "next-auth/react";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Cake  } from "lucide-react";
 import OrderForm from "@/pages/Home/OrderForm"
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
@@ -120,7 +120,11 @@ const Page = () => {
           {/* Infos */}
           <div className="space-y-6">
             <div className="bg-white/80 shadow-xl p-4 rounded-lg">
-              <h1 className="text-3xl text-center font-serif text-slate-800 mb-4">{kit.name}</h1>
+            
+              <div className="flex items-center justify-center space-x-3 mb-2 text-center align-middle">
+                <Cake className="text-purple-600" />
+                <h1 className="text-3xl text-center font-serif text-slate-800"> {kit.name} </h1>
+              </div>
               <p className="text-lg text-center text-slate-600 mb-6">{kit.description}</p>
             </div>
             <div className="bg-white/80 shadow-xl p-4 rounded-lg">

@@ -1,7 +1,7 @@
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  directUrl = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator client {
@@ -11,6 +11,14 @@ generator client {
 enum ProductType {
   SIMPLE   // Produto pronto para entrega
   CUSTOM   // Produto encomendado (kit/composição)
+}
+
+enum RequestStatus {
+  pending     // Pedido criado, aguardando pagamento
+  paid        // Pagamento confirmado
+  canceled    // Pagamento cancelado
+  processing  // Pedido sendo preparado
+  delivered   // Pedido entregue
 }
 
 model User {
@@ -66,7 +74,7 @@ model Request {
   id         Int      @id @default(autoincrement())
   quantity   Int
   price      Float
-  status     String   @default("pending")
+  status     RequestStatus @default(pending)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
@@ -76,4 +84,19 @@ model Request {
 
   user    User    @relation(fields: [user_id], references: [id])
   product Product @relation(fields: [product_id], references: [id])
+  payments Payment[]
+
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  provider      String   // "stripe", "mercadopago"
+  provider_id   String   // ID da transação no provedor
+  amount        Float
+  status        String   // "approved", "failed", etc.
+  created_at    DateTime @default(now())
+
+  // Relação
+  request_id Int
+  request    Request @relation(fields: [request_id], references: [id])
 }

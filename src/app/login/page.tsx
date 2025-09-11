@@ -14,6 +14,7 @@ const Login = () => {
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
   
@@ -36,10 +37,11 @@ const Login = () => {
     });
 
     if (result?.error) {
-      console.error("Login falhou", result.error);
+      setError("Falha ao entrar. Verifique suas credenciais.");
     } else {
       router.push("/profile");
     }
+    setIsLoading(false);
   };
 
   return (
@@ -58,6 +60,11 @@ const Login = () => {
 
         {/* Card de Login */}
         <div className="shadow-xl p-5 border-0 rounded-lg bg-white/80 backdrop-blur-sm">
+          {error && (
+          <div className="mb-6 text-center">
+            {error && <div className="mb-4 text-red-600">{error}</div>}
+          </div>
+          )}
           <div className="text-center">
             <div className="text-2xl font-serif text-slate-800 flex items-center justify-center gap-2">
               <LogIn className="w-6 h-6 text-sky-600" />

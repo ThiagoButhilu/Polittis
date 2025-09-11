@@ -1,6 +1,10 @@
 "use client"
 import { useState } from "react";
-import { CalendarDays, User, Phone, MapPin, MessageSquare } from "lucide-react";
+import { CalendarDays, MessageSquare, UserRoundX  } from "lucide-react";
+import { useEffect } from "react";
+import { useRouter } from 'next/navigation'
+import { useSession } from "next-auth/react";
+
 
 interface Kit {
   id: string;
@@ -19,17 +23,26 @@ interface ProductOrderFormProps {
   kit: Kit
 }
 
+
+
 const OrderForm = ({ kit}: ProductOrderFormProps) => {
   const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    email: '',
     deliveryDate: '',
     deliveryTime: '',
-    address: '',
     observations: '',
     quantity: 1
   });
+
+  const router = useRouter();
+
+  
+  const { status } = useSession();
+
+   useEffect(() => {
+        if (status === "authenticated") {
+
+        }
+      }, [status, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -58,56 +71,22 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
         </div>
       </div>
       <div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {/* Dados Pessoais */}
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                <User className="w-4 h-4 inline mr-1" />
-                Nome Completo *
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={formData.name}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-sky-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                placeholder="Seu nome completo"
-              />
-            </div>
+        {status !== "authenticated" ? (
+          <div className="text-center p-10">
+            <p className="text-center text-2xl font-serif text-slate-800 flex items-center justify-center gap-2 mb-4">
+            <UserRoundX className="text-center w-6 h-6 text-sky-600" />
+            </p>
             
-            <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">
-                <Phone className="w-4 h-4 inline mr-1" />
-                Telefone/WhatsApp *
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleInputChange}
-                required
-                className="w-full px-3 py-2 border border-sky-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-                placeholder="(11) 99999-9999"
-              />
-            </div>
+            <p className="mb-4 text-slate-600">Você precisa estar logado para fazer uma encomenda.</p>
+            <button 
+              onClick={() => router.push('/login')} 
+              className="w-full rounded-md bg-purple-600 hover:bg-purple-700 text-white py-3 text-lg font-semibold"
+            >
+              Ir para Login
+            </button>
           </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              E-mail
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-sky-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-              placeholder="seu@email.com"
-            />
-          </div>
-
+        ) : ( 
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* Data e Hora */}
           <div className="grid md:grid-cols-2 gap-4">
             <div>
@@ -162,22 +141,6 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
             />
           </div>
 
-          {/* Endereço */}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              <MapPin className="w-4 h-4 inline mr-1" />
-              Endereço para Entrega
-            </label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleInputChange}
-              className="w-full px-3 py-2 border border-sky-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
-              placeholder="Rua, número, bairro, cidade (ou deixe vazio para retirada na loja)"
-            />
-          </div>
-
           {/* Observações */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1">
@@ -202,9 +165,11 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
           </button>
           
           <p className="text-xs text-slate-500 text-center">
-            Após enviar, entraremos em contato para confirmar os detalhes e forma de pagamento
+            Após confirmar, você será redirecionado para a tela de pagamento
           </p>
         </form>
+        )
+        }
       </div>
     </div>
   );

@@ -23,50 +23,13 @@ interface FormData {
 }
 
 
-/*async function buscarDados() {
-  try {
-            const response = await fetch('/api/register', {
-                method: 'POST',
-                body: JSON.stringify({
-                    name: 'João Silva',
-                    email: 'joao@email.com',
-                    password: 'senha123',
-                    street: 'Rua Principal',
-                    number: '123',
-                    zip: '12345678',
-                    city: 'São Paulo',
-                    district: 'Centro',
-                    complement: 'Apto 101'
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData?.error);
-            }
-
-            const result = await response.json();
-            alert(result.message);
-        } catch (error) {
-            console.error('Erro ao enviar formulário:', error);
-            alert('Erro ao enviar formulário. Por favor, tente novamente.');
-        }
-} */
-
-
 
 const RegisterPage = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
     const onSubmit = async (data: FormData) => {
-
-        console.log('Dados do formulário:', data);
-
-        try {
+       
             const response = await fetch('/api/user', {
                 method: 'POST',
                 body: JSON.stringify(data),
@@ -75,19 +38,18 @@ const RegisterPage = () => {
                 }
             });
 
-            console.log(response)
-
-            if (!response.ok) {
+            if (response.status !== 200) {
+            console.log("Erro ao registrar:", response.status);
             const errorData = await response.json();
             setErrorMessage(errorData?.error || errorData?.message);
             return;
+            }else{
+                setErrorMessage(null);
+            
             }
             
             redirect('/login');
-        } catch (error) {
-            console.error('Erro ao enviar formulário:', error);
-            alert('Erro ao enviar formulário. Por favor, tente novamente.');
-        }
+            
     };
 
     return (
@@ -112,6 +74,11 @@ const RegisterPage = () => {
                         </div>
                     )}
                     <div className="text-center">
+                        {errorMessage && (
+                            <div className="mb-4 rounded-2xl py-3 text-center bg-red-100 text-sm text-red-600">
+                                {errorMessage}
+                            </div>
+                        )}
                         <div className="text-2xl font-serif text-slate-800 flex items-center justify-center gap-2">
                             <LogIn className="w-6 h-6 text-sky-600" />
                             <span className="font-semibold">Registrar</span>
