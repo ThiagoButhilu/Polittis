@@ -52,15 +52,39 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
     }));
   };
 
+  async function handleCheckout(kit: Kit, deliveryDate: string, deliveryTime: string, observations: string, quantity: number, userId: string) {
+    const res = await fetch("/api/checkout", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ kit, deliveryDate, deliveryTime, observations, quantity, userId }),
+    });
+  
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url; 
+    } else {
+      alert("Erro ao iniciar pagamento");
+    }
+  }
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Dados da encomenda:', { kit });
-    
-    // Simular envio do pedido
-    alert('Encomenda enviada com sucesso! Entraremos em contato em breve.');
+
+    if(localStorage.getItem('userId') === null) {
+      alert("Usuário não autenticado. Por favor, faça login.");
+    }
+
+    handleCheckout(
+      kit,
+      formData.deliveryDate,
+      formData.deliveryTime,
+      formData.observations,
+      formData.quantity,
+      localStorage.getItem('userId') || ''
+    );
   };
 
-  const minDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; // 2 dias a partir de hoje
+  const minDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; 
 
   return (
     <div className="rounded-lg border bg-card text-card-foreground shadow-sm bg-gradient-to-r p-6 from-sky-50 to-indigo-50 border-sky-200">
@@ -134,9 +158,12 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
               type="number"
               name="quantity"
               value={formData.quantity}
-              onChange={handleInputChange}
+              onChange={(e) => {
+                const value = Math.max(1, parseInt(e.target.value, 10) || 1);
+                setFormData(prev => ({ ...prev, quantity: value }));
+              }}
               min="1"
-              max="10"
+              required
               className="w-full px-3 py-2 border border-sky-200 rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-transparent"
             />
           </div>
