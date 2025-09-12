@@ -36,7 +36,7 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
   const router = useRouter();
 
   
-  const { status } = useSession();
+  const {data: session, status } = useSession();
 
    useEffect(() => {
         if (status === "authenticated") {
@@ -52,7 +52,9 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
     }));
   };
 
-  async function handleCheckout(kit: Kit, deliveryDate: string, deliveryTime: string, observations: string, quantity: number, userId: string) {
+  async function handleCheckout(kit: Kit, deliveryDate: string, deliveryTime: string, observations: string, quantity: number, userId: Number) {
+    console.log("URL usada:", process.env.NEXT_PUBLIC_URL);
+
     const res = await fetch("/api/checkout", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -70,18 +72,22 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if(localStorage.getItem('userId') === null) {
+    console.log(session?.user.id);
+
+    if (!session?.user.id) {
       alert("Usuário não autenticado. Por favor, faça login.");
+    } else {
+      handleCheckout(
+        kit,
+        formData.deliveryDate,
+        formData.deliveryTime,
+        formData.observations,
+        formData.quantity,
+        session.user.id as Number
+      );    
     }
 
-    handleCheckout(
-      kit,
-      formData.deliveryDate,
-      formData.deliveryTime,
-      formData.observations,
-      formData.quantity,
-      localStorage.getItem('userId') || ''
-    );
+  
   };
 
   const minDate = new Date(Date.now() + 2 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]; 

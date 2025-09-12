@@ -12,7 +12,7 @@ export default function SucessoPage() {
     async function atualizarPedido() {
       if (!pedidoId) return;
 
-      await fetch(`/api/pedidos/${pedidoId}/status`, {
+      await fetch(`/api/request/${pedidoId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: "approved" }),

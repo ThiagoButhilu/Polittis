@@ -73,10 +73,13 @@ model ProductComponent {
 model Request {
   id         Int      @id @default(autoincrement())
   quantity   Int
+  observation String?
   price      Float
   status     RequestStatus @default(pending)
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
+  delivery_date DateTime
+  delivery_time String?
 
   // Relações
   user_id    Int
