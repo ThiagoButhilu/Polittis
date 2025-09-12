@@ -52,7 +52,7 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
     }));
   };
 
-  async function handleCheckout(kit: Kit, deliveryDate: string, deliveryTime: string, observations: string, quantity: number, userId: Number) {
+  async function handleCheckout(kit: Kit, deliveryDate: string, deliveryTime: string, observations: string, quantity: number, userId: number) {
     console.log("URL usada:", process.env.NEXT_PUBLIC_URL);
 
     const res = await fetch("/api/checkout", {
@@ -83,7 +83,7 @@ const OrderForm = ({ kit}: ProductOrderFormProps) => {
         formData.deliveryTime,
         formData.observations,
         formData.quantity,
-        session.user.id as Number
+        session.user.id as number
       );    
     }
 

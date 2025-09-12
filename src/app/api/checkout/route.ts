@@ -81,8 +81,14 @@ export async function POST(req: NextRequest) {
     // ⚠️ resultado vem dentro de result.body
     return NextResponse.json({ url: result.init_point });
 
-  } catch (err: any) {
+  } catch (err: unknown) {
+    let message = "Erro desconhecido";
+  
+    if (err instanceof Error) {
+      message = err.message;
+    }
+  
     console.error("Erro no checkout:", err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
