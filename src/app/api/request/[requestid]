@@ -12,7 +12,15 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     const updated = await prisma.request.update({
       where: { id: Number(params.id) },
       data: { status },
+      include: { product: true },
     });
+
+    if(updated.product.type === "CUSTOM") {
+      const updatedProduct = await prisma.product.update({
+        where: { id: updated.product.id },
+        data: { quantity: { decrement: 1 } },
+      });
+    }
 
     return NextResponse.json(updated);
   } catch (err: any) {
