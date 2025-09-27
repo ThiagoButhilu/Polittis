@@ -125,9 +125,6 @@ export default function Header() {
                 alt="Logo"
                 className="h-8 w-auto object-contain"
               />
-              <span className="font-great-vibes text-3xl text-custom-black">
-                Politti&apos;s
-              </span>
             </Link>
           </div>
         </div>
