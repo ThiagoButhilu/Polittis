@@ -14,6 +14,23 @@ export default function SucessoPageContent() {
       return;
     }
 
+    async function sendWppMessage() {
+
+      const message = `Olá! Acabei de fazer um pedido no The Politti's. O número do meu pedido é ${pedidoId}. Gostaria de confirmar os detalhes e o prazo de entrega. Obrigado!`;
+      const phoneNumber = "18981268295"; // Substitua pelo número de telefone desejado
+      const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+      window.open(url, "_blank");
+    }
+
+    async function sendWppClient() {
+      const message = `Seu pedido ${pedidoId} foi confirmado com sucesso! Em breve entraremos em contato para confirmar os detalhes e o prazo de entrega. Obrigado por escolher The Politti's! 🍪🎉`;
+      const phoneNumber = "11958722569"; // Substitua pelo número de telefone desejado
+      const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+      window.open(url, "_blank");
+    }
+
     async function atualizarPedido() {
       try {
         await fetch(`/api/request/${pedidoId}`, {
@@ -29,6 +46,8 @@ export default function SucessoPageContent() {
     }
 
     atualizarPedido();
+    sendWppMessage();
+    sendWppClient();
   }, [pedidoId]);
 
   if (loading) return <p>Processando pagamento...</p>;
