@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link';
-import cookie from '@/../public/cookie (1).png'
+import cookie from '@/../public/assets/banners/logo_01_the_polittis_logo_12.png';
 import Image from "next/image";
 import { MenuIcon, LogIn } from "lucide-react";
 import { useState, useEffect } from 'react';
@@ -32,11 +32,8 @@ export default function Header() {
               width={0}
               src={cookie.src}
               alt="Logo"
-              className="h-8 w-auto object-contain"
+              className="h-10 w-46 object-contain"
             />
-            <span className="font-great-vibes text-3xl text-custom-black">
-              Politti&apos;s
-            </span>
           </Link>
         </div>
 
