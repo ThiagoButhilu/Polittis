@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
         user_id: userId,
         product_id: product.id,
         quantity,
-        observation: observations,
+        observation: observations || "",
         delivery_date: new Date(deliveryDate),
         delivery_time: deliveryTime,
         price: product.price * quantity,
