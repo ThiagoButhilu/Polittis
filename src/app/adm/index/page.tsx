@@ -23,9 +23,9 @@ export default function Home() {
                         Ver Usuários
                     </button>
                 </Link>
-                <Link href="/adm/reports" className="w-full">
+                <Link href="/adm/request" className="w-full">
                     <button className="w-full py-3 px-4 bg-yellow-600 text-white rounded-md font-semibold hover:bg-yellow-700 transition">
-                        Relatórios
+                        Pedidos
                     </button>
                 </Link>
                 <Link href="/adm/products" className="w-full">

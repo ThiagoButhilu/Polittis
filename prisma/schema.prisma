@@ -1,40 +1,25 @@
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
-enum ProductType {
-  SIMPLE   // Produto pronto para entrega
-  CUSTOM   // Produto encomendado (kit/composição)
-}
-
-enum RequestStatus {
-  pending     // Pedido criado, aguardando pagamento
-  paid        // Pagamento confirmado
-  canceled    // Pagamento cancelado
-  processing  // Pedido sendo preparado
-  delivered   // Pedido entregue
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  name     String
-  phone    String
-  email    String   @unique
-  password String
-
-  // Relações
+  id        Int       @id @default(autoincrement())
+  name      String
+  phone     String
+  email     String    @unique
+  password  String
   addresses Address[]
   requests  Request[]
 }
 
 model Address {
-  id       Int    @id @default(autoincrement())
+  id       Int     @id @default(autoincrement())
   street   String
   number   String
   comp     String?
@@ -42,64 +27,70 @@ model Address {
   state    String
   city     String
   district String
-
-  // Relação com User
-  user_id Int
-  user    User @relation(fields: [user_id], references: [id])
+  user_id  Int
+  user     User    @relation(fields: [user_id], references: [id])
 }
 
 model Product {
-  id          Int          @id @default(autoincrement())
+  id          Int                @id @default(autoincrement())
   name        String
   description String
   price       Float
   quantity    Int?
   image_url   String
   category    String
-  created_at  DateTime     @default(now())
-  type        ProductType  @default(SIMPLE) 
-  requests    Request[]
+  created_at  DateTime           @default(now())
+  type        ProductType        @default(SIMPLE)
   components  ProductComponent[]
+  requests    Request[]
 }
 
 model ProductComponent {
   id         Int     @id @default(autoincrement())
-  name       String   // Ex: "Recheio de chocolate", "12 cupcakes"
+  name       String
   quantity   Int?
   product_id Int
   product    Product @relation(fields: [product_id], references: [id])
 }
 
 model Request {
-  id         Int      @id @default(autoincrement())
-  quantity   Int
-  observation String?
-  price      Float
-  status     RequestStatus @default(pending)
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id            Int           @id @default(autoincrement())
+  quantity      Int
+  price         Float
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+  user_id       Int
+  product_id    Int
+  status        RequestStatus @default(pending)
+  observation   String?
   delivery_date DateTime
   delivery_time String?
-
-  // Relações
-  user_id    Int
-  product_id Int
-
-  user    User    @relation(fields: [user_id], references: [id])
-  product Product @relation(fields: [product_id], references: [id])
-  payments Payment[]
-
+  payment_id    String?
+  payments      Payment[]
+  product       Product       @relation(fields: [product_id], references: [id])
+  user          User          @relation(fields: [user_id], references: [id])
 }
 
 model Payment {
-  id            Int      @id @default(autoincrement())
-  provider      String   // "stripe", "mercadopago"
-  provider_id   String   // ID da transação no provedor
-  amount        Float
-  status        String   // "approved", "failed", etc.
-  created_at    DateTime @default(now())
+  id          Int      @id @default(autoincrement())
+  provider    String
+  provider_id String
+  amount      Float
+  status      String
+  created_at  DateTime @default(now())
+  request_id  Int
+  request     Request  @relation(fields: [request_id], references: [id])
+}
 
-  // Relação
-  request_id Int
-  request    Request @relation(fields: [request_id], references: [id])
+enum ProductType {
+  SIMPLE
+  CUSTOM
+}
+
+enum RequestStatus {
+  pending
+  paid
+  canceled
+  processing
+  delivered
 }
