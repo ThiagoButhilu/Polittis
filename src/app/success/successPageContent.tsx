@@ -33,7 +33,7 @@ export default function SucessoPageContent() {
 
     async function atualizarPedido() {
       try {
-        await fetch(`/api/request/${pedidoId}`, {
+        await fetch(`/api/request/${pedidoId}/status`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: "approved" }),

@@ -17,7 +17,7 @@ export default function FalhaPageContent() {
 
     async function atualizarStatus() {
       try {
-        await fetch(`/api/pedidos/${pedidoId}/status`, {
+        await fetch(`/api/request/${pedidoId}/status`, {
           method: "PATCH",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: "failed" }),
