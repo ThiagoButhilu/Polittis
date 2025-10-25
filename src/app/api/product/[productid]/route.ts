@@ -1,34 +1,30 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "../../../../../.lib/prisma";
 
-export async function PATCH(req: NextRequest, context: unknown) {
-  // Fazemos um type assertion seguro aqui
-  const { requestid } = (context as { params: { requestid: string } }).params;
+
+export async function GET(req: NextRequest, context: unknown) {
+
+  const { productid } = await (context as { params: { productid: string } }).params;
+
+  console.log("Buscando pedido com ID:", productid);
+
 
   try {
-    const { status } = await req.json();
-
-    if (!status) {
-      return NextResponse.json({ error: "Status obrigatório" }, { status: 400 });
-    }
-
-    const updated = await prisma.request.update({
-      where: { id: Number(requestid) },
-      data: { status },
-      include: { product: true },
+    const request = await prisma.product.findUnique({
+      where: { id: Number(productid) }
     });
 
-    if (updated.product.type === "CUSTOM") {
-      await prisma.product.update({
-        where: { id: updated.product.id },
-        data: { quantity: { decrement: 1 } },
-      });
+    console.log("Pedido encontrado:", request);
+
+    if (!request) {
+      return NextResponse.json({ error: "Pedido não encontrado" }, { status: 404 });
     }
 
-    return NextResponse.json(updated);
+    return NextResponse.json(request);
   } catch (err: unknown) {
     const errorMessage = err instanceof Error ? err.message : String(err);
-    console.error("Erro ao atualizar pedido:", errorMessage);
+    console.error("Erro ao buscar pedido:", errorMessage);
     return NextResponse.json({ error: "Erro interno" }, { status: 500 });
   }
 }
+

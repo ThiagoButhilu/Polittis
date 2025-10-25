@@ -43,8 +43,8 @@ const Page = () => {
       try {
         const response = await fetch(`/api/product/${orderIdNumber}`) ;
         const data = await response.json();
-        setKit(data.product);
-        console.log(data.product);
+        setKit(data);
+        console.log(data);
 
         const resImages = await fetch(`/api/product/images/${orderIdNumber}`);
         const { images } = await resImages.json();
