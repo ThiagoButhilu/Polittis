@@ -69,6 +69,12 @@ export async function POST(req: NextRequest) {
       },
     });
 
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+
+
     console.log("✅ [CHECKOUT] Pedido criado com ID:", request.id);
 
     const preference = new Preference(client);
@@ -77,7 +83,7 @@ export async function POST(req: NextRequest) {
     const successUrl = `${process.env.NEXT_PUBLIC_URL}/success?pedido=${request.id}`;
     const failureUrl = `${process.env.NEXT_PUBLIC_URL}/failure?pedido=${request.id}`;
     const pendingUrl = `${process.env.NEXT_PUBLIC_URL}/pending?pedido=${request.id}`;
-    const webhookUrl = "https://unfixated-transcalent-amirah.ngrok-free.dev/api/webhooks/mercadopago";
+    const webhookUrl = `${process.env.NEXT_PUBLIC_URL}/api/webhooks/mercadopago`;
 
     console.log("🔗 [CHECKOUT] URLs configuradas:", {
       success: successUrl,
@@ -99,7 +105,7 @@ export async function POST(req: NextRequest) {
           },
         ],
         payer: {
-          email: "thiago.araujorodrigues@gmail.com",
+          email: user?.email || ""
         },
         external_reference: request.id.toString(),
         back_urls: {
