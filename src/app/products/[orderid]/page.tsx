@@ -21,7 +21,7 @@ interface Kit {
 
 const Page = () => {
     const params = useParams();
-  const orderid = params?.orderid; // string | undefined
+  const orderid = params?.orderid;
   const orderIdNumber = Number(orderid);
 
   const { data: session, status } = useSession();
