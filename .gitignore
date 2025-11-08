@@ -1,6 +1,6 @@
 # Node modules
 node_modules/
-prisma
+prisma/migrations/
 
 # Next.js build output
 .next/
